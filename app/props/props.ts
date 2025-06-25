@@ -8,4 +8,5 @@ export interface PostProps {
   userPhoto: string;
   timeAgo: string;
   _id: string;
+  likedUsers: string[]
 }

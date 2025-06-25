@@ -20,7 +20,6 @@ export default function Header() {
     const token = localStorage.getItem("token");
     if (token) {
       const decode: any = jwtDecode(token);
-      console.log(decode);
       setUserData(decode);
     }
   }, []);
@@ -29,9 +28,7 @@ export default function Header() {
   };
 
   return (
-    <header
-      className="bg-[var(--background-header)] text-[var(--foreground)] shadow-[#001] shadow-xl relative"
-    >
+    <header className="bg-[var(--background-header)] text-[var(--foreground)] shadow-[#001] shadow-xl relative">
       <style jsx>{`
         .mobile-menu {
           transform: translateX(100%);
@@ -88,9 +85,9 @@ export default function Header() {
                 </li>
 
                 <li>
-                  <a
+                  <Link
                     className="flex flex-col items-center transition "
-                    href="#"
+                    href="/requests"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +104,7 @@ export default function Header() {
                       />
                     </svg>
                     Friend Requests
-                  </a>
+                  </Link>
                 </li>
 
                 <li>
@@ -126,7 +123,10 @@ export default function Header() {
                 <h1 className="text-xs sm:text-lg">{userData.name}</h1>
                 <img src={userData.avatar} className="size-9 rounded-full" />
                 <div className="hidden sm:flex">
-                  <button onClick={Logut} className="block w-full cursor-pointer rounded-md px-5 py-2.5 text-center text-sm font-medium border-1 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all">
+                  <button
+                    onClick={Logut}
+                    className="block w-full cursor-pointer rounded-md px-5 py-2.5 text-center text-sm font-medium border-1 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all"
+                  >
                     Logout
                   </button>
                 </div>
@@ -230,7 +230,10 @@ export default function Header() {
             </li>
 
             <li>
-              <a className=" flex items-center gap-1  transition  " href="#">
+              <Link
+                className="flex items-center gap-1 transition"
+                href="/requests"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -246,7 +249,7 @@ export default function Header() {
                   />
                 </svg>
                 Friend Requests
-              </a>
+              </Link>
             </li>
 
             <li>
@@ -260,7 +263,10 @@ export default function Header() {
           <div className="mt-8 space-y-3">
             {userData ? (
               <div className="space-y-4">
-                <button onClick={Logut} className="block w-full cursor-pointer rounded-md px-5 py-2.5 text-center text-sm font-medium border-1 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all">
+                <button
+                  onClick={Logut}
+                  className="block w-full cursor-pointer rounded-md px-5 py-2.5 text-center text-sm font-medium border-1 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all"
+                >
                   Logout
                 </button>
               </div>

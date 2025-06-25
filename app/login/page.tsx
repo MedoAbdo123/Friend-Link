@@ -1,10 +1,11 @@
 "use client";
-import { Lock, Mail, Upload, User, UserCheck } from "lucide-react";
+import { Lock, Mail } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import Toast from "../components/toast/Toast";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Login() {
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -34,18 +35,26 @@ function Login() {
       .then((res) => {
         if (res.ok) {
           return res.json();
+        } else {
+          return res.json().then((errData) => {
+            throw errData;
+          });
         }
       })
       .then((data) => {
         setToastMessage(data.data.message);
+        console.log(data.data.message);
         setShowToast(true);
         setIsSuccess(true);
         localStorage.setItem("token", data.data.token);
-        router.push("/");
+        document.cookie = `token=${data.data.token}; path=/`;
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
       })
       .catch((err) => {
-        setIsSuccess(false);
         setToastMessage(err.message);
+        setIsSuccess(false);
         setShowToast(true);
       })
       .finally(() => {
@@ -134,25 +143,34 @@ function Login() {
       </article>
 
       <div className="fixed bottom-4 right-4">
-        {showToast && (
-          <div>
-            {isSuccess ? (
-              <Toast
-                bg="#2ED13E"
-                text="#ffffff"
-                message={toastMessage}
-                correct={true}
-              />
-            ) : (
-              <Toast
-                bg="#BF0D22"
-                text="#ffffff"
-                message={toastMessage}
-                error={true}
-              />
-            )}
-          </div>
-        )}
+        <AnimatePresence>
+          {showToast && (
+            <motion.div
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 300, opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {isSuccess ? (
+                <Toast
+                  bg="#2ED13E"
+                  text="#ffffff"
+                  message={toastMessage}
+                  correct={true}
+                  onClose={() => setShowToast(false)}
+                />
+              ) : (
+                <Toast
+                  bg="#BF0D22"
+                  text="#ffffff"
+                  message={toastMessage}
+                  error={true}
+                  onClose={() => setShowToast(false)}
+                />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </React.Fragment>
   );

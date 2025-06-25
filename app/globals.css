@@ -7,11 +7,14 @@
   --foreground: #171717;
   --post-background: rgb(233, 233, 233);
   --post-foreground: #000000;
-  --background-comment: #fffaff;
-  --foreground-comment: #000;
+  --background-comment: rgba(255,255,255,0.12);
+  --foreground-comment: #000000;
   --bg-auth: rgba(156, 161, 161, 0.253);
   --shadow-auth: rgba(0, 0, 0, 0.459);
   --bg-menu: rgba(255, 255, 255);
+  --app-comments: rgb(255, 255, 255);
+  --app-comments-color: #000000;
+  --app-comments-shadow: #000000;
 }
 
 .dark {
@@ -20,10 +23,14 @@
   --foreground: #ededed;
   --post-background: #003;
   --post-foreground: #fff;
-  --background-comment: #117;
+  --background-comment: rgba(255,255,255,0.08);
   --foreground-comment: #fff;
   --bg-auth: rgba(255, 255, 255, 0.05);
   --bg-menu: #003;
+  --app-comments: #003;
+  --app-comments-color: #ffffff;
+  --app-comments-shadow: #fff;
+
 }
 
 /* Optional: Custom props */
@@ -46,9 +53,6 @@ body {
 .comments-app {
   overflow-y: scroll;
   height: 290px;
-}
-.comments-app::-webkit-scrollbar-thumb {
-  background-color: rgb(42, 65, 165);
 }
 .comments-app::-webkit-scrollbar {
   border-radius: 9px;

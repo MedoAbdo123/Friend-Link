@@ -1,4 +1,5 @@
 "use client";
+import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Mail, Upload, User, UserCheck } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -48,7 +49,10 @@ function Register() {
         setShowToast(true);
         setIsSuccess(true);
         localStorage.setItem("token", data.token);
-        router.push("/");
+        document.cookie = `token=${data.token}; path=/;`;
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
       })
       .catch((err) => {
         setIsSuccess(false);
@@ -164,58 +168,67 @@ function Register() {
                   Must contain at least 8 characters
                 </p>
               </label>
-            <div className="flex w-full justify-center flex-col text-center">
-              <button  type="submit">
-                {loading ? (
-                  <div className="bg-[#4353b3] m-3 w-[88%] p-2 space-x-3 flex justify-center items-center gap-3 rounded-lg text-white cursor-pointer">
-                    <ClipLoader
-                      color="#ffffff"
-                      loading={true}
-                      size={15}
-                      aria-label="Loading Spinner"
-                      data-testid="loader"
-                    />
-                    Register
-                  </div>
-                ) : (
-                  <div className="bg-[#5267E1] m-3 w-[88%] p-2 space-x-3 flex justify-center items-center gap-3 rounded-lg text-white cursor-pointer hover:bg-[#4353b3] transition-all duration-300">
-                    Register
-                  </div>
-                )}
-              </button>
+              <div className="flex w-full justify-center flex-col text-center">
+                <button type="submit">
+                  {loading ? (
+                    <div className="bg-[#4353b3] m-3 w-[88%] p-2 space-x-3 flex justify-center items-center gap-3 rounded-lg text-white cursor-pointer">
+                      <ClipLoader
+                        color="#ffffff"
+                        loading={true}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                      Register
+                    </div>
+                  ) : (
+                    <div className="bg-[#5267E1] m-3 w-[88%] p-2 space-x-3 flex justify-center items-center gap-3 rounded-lg text-white cursor-pointer hover:bg-[#4353b3] transition-all duration-300">
+                      Register
+                    </div>
+                  )}
+                </button>
 
-              <p className="pb-4 text-sm">
-                Already have an account?
-                <Link href={"/login"} className="text-sky-700 pl-1">
-                  Login in here
-                </Link>
-              </p>
-            </div>
+                <p className="pb-4 text-sm">
+                  Already have an account?
+                  <Link href={"/login"} className="text-sky-700 pl-1">
+                    Login in here
+                  </Link>
+                </p>
+              </div>
             </form>
           </section>
         </div>
       </article>
 
       <div className="fixed bottom-4 right-4">
-        {showToast && (
-          <div>
-            {isSuccess ? (
-              <Toast
-                bg="#2ED13E"
-                text="#ffffff"
-                message={toastMessage}
-                correct={true}
-              />
-            ) : (
-              <Toast
-                bg="#BF0D22"
-                text="#ffffff"
-                message={toastMessage}
-                error={true}
-              />
-            )}
-          </div>
-        )}
+        <AnimatePresence>
+          {showToast && (
+            <motion.div
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: 300, opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {isSuccess ? (
+                <Toast
+                  bg="#2ED13E"
+                  text="#ffffff"
+                  message={toastMessage}
+                  correct={true}
+                  onClose={() => setShowToast(false)}
+                />
+              ) : (
+                <Toast
+                  bg="#BF0D22"
+                  text="#ffffff"
+                  message={toastMessage}
+                  error={true}
+                  onClose={() => setShowToast(false)}
+                />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </React.Fragment>
   );

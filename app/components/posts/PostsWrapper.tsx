@@ -43,7 +43,9 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
 
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3000/post/allPosts?skip=${skip}&limit=${limit}`);
+      const res = await fetch(
+        `http://localhost:3000/post/allPosts?skip=${skip}&limit=${limit}`
+      );
       const data = await res.json();
 
       if (data.data && data.data.length > 0) {
@@ -75,6 +77,7 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
           name={post.user.name}
           likes={post.likes}
           commentNumber={post.commentsNumber}
+          likedUsers={post.likedUsers}
         />
       ))}
 
