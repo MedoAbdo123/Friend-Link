@@ -47,7 +47,7 @@ function Login() {
         setShowToast(true);
         setIsSuccess(true);
         localStorage.setItem("token", data.data.token);
-        document.cookie = `token=${data.data.token}; path=/`;
+        document.cookie = `token=${data.data.token}; path=/; max-age=${7 * 24 * 60 * 60};`;
         setTimeout(() => {
           router.push("/");
         }, 1000);

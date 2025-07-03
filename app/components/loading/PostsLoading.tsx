@@ -2,7 +2,7 @@ import React from "react";
 
 function PostsLoading() {
   return (
-    <article className="flex flex-col text-[var(--post-foreground)] animate-pulse w-2/2  bg-[var(--post-background)] min-h-120 sm:w-[600px] border-1 rounded-2xl shadow-lg shadow-white post">
+    <article className="flex flex-col text-[var(--post-foreground)] animate-pulse w-full bg-[var(--post-background)] min-h-120 sm:w-[600px] border-1 rounded-2xl shadow-lg shadow-white post">
       <div className="w-full flex flex-row-reverse items-center justify-between p-4">
         <time className="w-11 rounded-full h-4 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700"></time>
         <header className="flex items-center h-12 gap-2">

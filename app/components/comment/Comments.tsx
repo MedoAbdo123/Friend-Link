@@ -127,7 +127,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       setComments((prev) =>
         prev.map((comment) =>
           comment._id === commentId
-            ? { ...comment, ...data.comment } // ✅ يحافظ على user الحالي
+            ? { ...comment, ...data.comment }
             : comment
         )
       );
@@ -137,7 +137,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
         [postId]:
           prev[postId]?.map((comment) =>
             comment._id === commentId
-              ? { ...comment, ...data.comment } // ✅ يحافظ على user الحالي
+              ? { ...comment, ...data.comment }
               : comment
           ) || [],
       }));

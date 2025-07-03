@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { use } from "react";
+import React from "react";
 import { useState, useRef, useEffect } from "react";
 import Comments from "../comment/Comments";
 import { PostProps } from "@/app/props/props";
@@ -17,6 +17,7 @@ function Post({
   commentNumber,
   likedUsers,
   _id,
+  username
 }: PostProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showReadMore, setShowReadMore] = useState(false);
@@ -91,9 +92,10 @@ function Post({
             alt="Medo Abdo profile"
             className="size-10 rounded-full"
           />
-          <Link href="#" className="font-bold">
+          <Link href={`/${username}`} className="font-bold">
             {name}
           </Link>
+          <Link href={`/${username}`} className="text-xs text-gray-600">{username}</Link>
         </header>
       </div>
       <section className="p-4">

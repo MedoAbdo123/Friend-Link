@@ -49,7 +49,7 @@ function Register() {
         setShowToast(true);
         setIsSuccess(true);
         localStorage.setItem("token", data.token);
-        document.cookie = `token=${data.token}; path=/;`;
+        document.cookie = `token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60};`;
         setTimeout(() => {
           router.push("/");
         }, 1000);

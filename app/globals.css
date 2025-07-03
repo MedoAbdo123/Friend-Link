@@ -15,6 +15,7 @@
   --app-comments: rgb(255, 255, 255);
   --app-comments-color: #000000;
   --app-comments-shadow: #000000;
+  --border-color:gray;
 }
 
 .dark {
@@ -30,7 +31,7 @@
   --app-comments: #003;
   --app-comments-color: #ffffff;
   --app-comments-shadow: #fff;
-
+  --border-color: oklab(20.992% -0.0039 -0.03394);
 }
 
 /* Optional: Custom props */
