@@ -1,5 +1,6 @@
 "use client";
 import { UserMinus, UserPlus, Users } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 function RequestsClient({ data, users, pending }: any) {
   const [active, setActive] = useState<"requests" | "users" | "pending">(
@@ -132,7 +133,7 @@ function RequestsClient({ data, users, pending }: any) {
       }`}
         >
           <UserPlus size={17.5} />
-          <p>Requests</p>s
+          <p>Requests</p>
           {requests.length > 0 && active === "requests" && (
             <span className="rounded-full  text-black size-5 bg-gray-200 text-xs flex items-center justify-center">
               {requests.length}
@@ -202,7 +203,9 @@ function RequestsClient({ data, users, pending }: any) {
                         className="size-10 rounded-full"
                       />
                       <div className="flex flex-col">
-                        <p>{request.senderId.name}</p>
+                        <Link href={`/profile/${request.senderId.username}`}>
+                          {request.senderId.name}
+                        </Link>
                         <p className="text-xs text-start text-gray-600">
                           {request.senderId.username}
                         </p>
@@ -312,7 +315,9 @@ function RequestsClient({ data, users, pending }: any) {
                         className="size-10 rounded-full"
                       />
                       <div className="flex flex-col">
-                        <p>{user.name}</p>
+                        <Link href={`/profile/${user.username}`}>
+                          {user.name}
+                        </Link>
                         <p className="text-xs text-start text-gray-600">
                           {user.username}
                         </p>
@@ -392,7 +397,9 @@ function RequestsClient({ data, users, pending }: any) {
                         className="size-10 rounded-full"
                       />
                       <div className="flex flex-col">
-                        <p>{user.receiverId.name}</p>
+                        <Link href={`/profile/${user.receiverId.username}`}>
+                          {user.receiverId.name}
+                        </Link>
                         <p className="text-xs text-start text-gray-600">
                           {user.receiverId.username}
                         </p>

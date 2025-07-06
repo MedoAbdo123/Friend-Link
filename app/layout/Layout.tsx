@@ -4,6 +4,11 @@ import { FilePenLine, House } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
+type MyPayload = {
+  name: string;
+  avatar: string;
+};
+
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userData, setUserData] = useState<{
@@ -12,20 +17,36 @@ export default function Header() {
   } | null>(null);
 
   function Logut() {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token")
     window.location.href = "/";
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  }
+
+  function toggleMobileMenu() {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decode: any = jwtDecode(token);
-      setUserData(decode);
+    const tokenCookies = document.cookie;
+    const tokenMatch = tokenCookies
+      .split("; ")
+      .find((row) => row.startsWith("token="));
+
+    if (tokenMatch) {
+      const tokenValue = tokenMatch.split("=")[1];
+
+      try {
+        if (tokenValue && tokenValue.split(".").length === 3) {
+          const decode = jwtDecode<MyPayload>(tokenValue);
+          setUserData(decode);
+        } else {
+          console.warn("Invalid token format.");
+        }
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
     }
   }, []);
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
 
   return (
     <header className="bg-[var(--background-header)] text-[var(--foreground)] shadow-[#001] shadow-xl relative">
@@ -55,7 +76,32 @@ export default function Header() {
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 flex-row-reverse text-sm">
                 <li>
-                  <Link className="transition " href="#">
+                  <Link
+                    className="transition flex items-center flex-col"
+                    href="/myProfile"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="transition flex items-center flex-col"
+                    href="#"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -73,11 +119,10 @@ export default function Header() {
                     Chat
                   </Link>
                 </li>
-
                 <li>
                   <Link
-                    className="transition flex flex-col items-center"
-                    href="#"
+                    className="transition flex items-center flex-col"
+                    href="/createPost"
                   >
                     <FilePenLine />
                     Add Post
@@ -86,7 +131,7 @@ export default function Header() {
 
                 <li>
                   <Link
-                    className="flex flex-col items-center transition "
+                    className="flex flex-col items-center transition"
                     href="/requests"
                   >
                     <svg
@@ -108,10 +153,10 @@ export default function Header() {
                 </li>
 
                 <li>
-                  <a className="flex flex-col items-center transition" href="#">
+                  <Link className="flex flex-col items-center transition" href="/">
                     <House />
                     Home
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -121,7 +166,11 @@ export default function Header() {
             {userData ? (
               <div className="sm:flex sm:gap-4 flex items-center gap-1">
                 <h1 className="text-xs sm:text-lg">{userData.name}</h1>
-                <img src={userData.avatar} className="size-9 rounded-full" />
+                <img
+                  onClick={() => alert()}
+                  src={userData.avatar}
+                  className="size-9 rounded-full object-cover"
+                />
                 <div className="hidden sm:flex">
                   <button
                     onClick={Logut}
@@ -203,6 +252,28 @@ export default function Header() {
         <nav>
           <ul className="flex flex-col-reverse items-start gap-6 text-sm">
             <li>
+              <Link
+                className="flex items-center gap-1 transition"
+                href="/myProfile"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                </svg>
+                Profile
+              </Link>
+            </li>
+            <li>
               <Link className="flex items-center gap-1 transition" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -221,9 +292,8 @@ export default function Header() {
                 Chat
               </Link>
             </li>
-
             <li>
-              <Link className=" flex items-center gap-1 transition  " href="#">
+              <Link className=" flex items-center gap-1 transition" href="/createPost">
                 <FilePenLine />
                 Add Post
               </Link>
@@ -253,10 +323,10 @@ export default function Header() {
             </li>
 
             <li>
-              <a className=" flex items-center gap-1 transition  " href="#">
+              <Link className=" flex items-center gap-1 transition  " href="/">
                 <House />
                 Home
-              </a>
+              </Link>
             </li>
           </ul>
           {/* Buttons */}

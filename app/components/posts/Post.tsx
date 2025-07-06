@@ -90,19 +90,20 @@ function Post({
           <img
             src={userPhoto}
             alt="Medo Abdo profile"
-            className="size-10 rounded-full"
+            className="size-10 rounded-full object-cover"
           />
-          <Link href={`/${username}`} className="font-bold">
+          <Link href={`/profile/${username}`} className="font-bold">
             {name}
           </Link>
-          <Link href={`/${username}`} className="text-xs text-gray-600">{username}</Link>
+          <Link href={`/profile/${username}`} className="text-xs text-gray-600">{username}</Link>
         </header>
       </div>
       <section className="p-4">
-        <h3 className="font-bold text-2xl">{title}</h3>
+        <h3 className="font-bold text-2xl" dir="auto">{title}</h3>
         <br />
         <p
           ref={textRef}
+          dir="auto"
           className={`leading-relaxed duration-300 text-sm ${
             !isExpanded && showReadMore ? "line-clamp-10 overflow-hidden" : ""
           }`}

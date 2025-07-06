@@ -97,7 +97,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       setContent("");
       return data;
     } catch (error) {
-      console.error("خطأ في إضافة التعليق:", error);
+      console.error(error);
       return null;
     }
   }
@@ -239,7 +239,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
                     <img
                       src={comment.user.avatar}
                       alt={comment.user.name}
-                      className="size-10 rounded-full border shadow"
+                      className="size-10 object-cover rounded-full border shadow"
                       style={{ borderColor: "var(--background-comment)" }}
                     />
                     <span className="font-semibold text-base">
@@ -335,6 +335,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       <form onSubmit={handleSubmit} className="w-full flex gap-2">
         <input
           type="text"
+          dir="auto"
           className="border-1 w-[85%] sm:w-[92%] p-2 rounded"
           placeholder={
             editingCommentId ? "Edit comment..." : "Write a comment..."

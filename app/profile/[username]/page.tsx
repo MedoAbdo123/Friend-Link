@@ -1,9 +1,9 @@
 "use client";
 import { UserMinus, UserPlus } from "lucide-react";
 import React, { use, useEffect, useState } from "react";
-import Post from "../components/posts/Post";
-import UserProfileLoading from "../components/loading/UserProfileLoading";
-import PostsLoading from "../components/loading/PostsLoading";
+import Post from "@/app/components/posts/Post";
+import UserProfileLoading from "@/app/components/loading/UserProfileLoading";
+import PostsLoading from "@/app/components/loading/PostsLoading";
 type Params = Promise<{ username: string }>;
 
 interface Props {
@@ -47,9 +47,6 @@ export default function Page({ params }: Props) {
           method: "GET",
         });
         const data = await res.json();
-
-        console.log("API Response:", data);
-
         if (Array.isArray(data) && data.length > 0) {
           setPosts(data);
 
@@ -85,7 +82,9 @@ export default function Page({ params }: Props) {
         );
         if (!res.ok) throw new Error("Failed to fetch status");
         const json = await res.json();
-        setStatus(json.status);
+        console.log(json)
+        setaddedFriend([{requestId: json.status._id}])
+        setStatus(json.status.status);
       } catch (err) {
         console.error(err);
       }
