@@ -7,7 +7,7 @@
   --foreground: #171717;
   --post-background: rgb(233, 233, 233);
   --post-foreground: #000000;
-  --background-comment: rgba(255,255,255,0.12);
+  --background-comment: rgba(255, 255, 255, 0.12);
   --foreground-comment: #000000;
   --bg-auth: rgba(156, 161, 161, 0.253);
   --shadow-auth: rgba(0, 0, 0, 0.459);
@@ -15,8 +15,10 @@
   --app-comments: rgb(255, 255, 255);
   --app-comments-color: #000000;
   --app-comments-shadow: #000000;
-  --border-color:gray;
+  --border-color: gray;
   --bg-button: rgba(156, 161, 161, 0.253);
+  --bg-chat: rgba(207, 182, 182, 0.288);
+
 }
 
 .dark {
@@ -25,7 +27,7 @@
   --foreground: #ededed;
   --post-background: #003;
   --post-foreground: #fff;
-  --background-comment: rgba(255,255,255,0.08);
+  --background-comment: rgba(255, 255, 255, 0.08);
   --foreground-comment: #fff;
   --bg-auth: rgba(255, 255, 255, 0.05);
   --bg-menu: #003;
@@ -34,6 +36,7 @@
   --app-comments-shadow: #fff;
   --border-color: oklab(20.992% -0.0039 -0.03394);
   --bg-button: rgb(8, 18, 104);
+  --bg-chat: rgba(255,255,255,0.1);
 }
 
 /* Optional: Custom props */
@@ -60,4 +63,45 @@ body {
 .comments-app::-webkit-scrollbar {
   border-radius: 9px;
   width: 4px;
+}
+.message-app {
+  overflow-y: scroll;
+  height: 100vh;
+}
+.message-app::-webkit-scrollbar {
+  border-radius: 9px;
+  width: 4px;
+}
+.chat-bubble {
+  position: relative;
+}
+.chat-bubble-left {
+  position: relative;
+}
+.chat-bubble::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  bottom: 0px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 1px solid transparent;
+  border-right: 8px solid #828282;
+}
+
+.chat-bubble-right {
+  position: relative;
+}
+
+.chat-bubble-left::before {
+  content: "";
+  position: absolute;
+  right: -9px;
+  bottom: 0px;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: -1px solid transparent;
+  border-left: 15px solid #1225EB;
 }

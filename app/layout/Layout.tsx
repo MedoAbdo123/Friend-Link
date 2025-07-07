@@ -100,7 +100,7 @@ export default function Header() {
                 <li>
                   <Link
                     className="transition flex items-center flex-col"
-                    href="#"
+                    href="/chat"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +274,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link className="flex items-center gap-1 transition" href="#">
+              <Link className="flex items-center gap-1 transition" href="/chat">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
