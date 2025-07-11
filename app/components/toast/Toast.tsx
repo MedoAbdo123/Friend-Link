@@ -1,13 +1,5 @@
+import { ToastProps } from "@/app/exports/exports";
 import React from "react";
-
-interface ToastProps {
-  bg: string;
-  text: string;
-  message: string;
-  correct?: boolean;
-  error?: boolean;
-  onClose: () => void;
-}
 
 export default function Toast({
   bg,
@@ -15,7 +7,7 @@ export default function Toast({
   message,
   correct,
   error,
-  onClose
+  onClose,
 }: ToastProps) {
   return (
     <article
@@ -25,7 +17,6 @@ export default function Toast({
         color: text,
       }}
     >
-      {/* Message section */}
       {correct == true ? (
         <section className="flex items-center gap-2">
           <svg
@@ -70,7 +61,6 @@ export default function Toast({
         ""
       )}
 
-      {/* Close button */}
       <section className="py-3 ">
         <button onClick={onClose} className="cursor-pointer">
           <svg

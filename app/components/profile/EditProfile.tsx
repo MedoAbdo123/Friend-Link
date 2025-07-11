@@ -1,18 +1,9 @@
 "use client";
+import { MyPayload, Props } from "@/app/exports/exports";
 import { jwtDecode } from "jwt-decode";
 import React, { useState, ChangeEvent, useEffect } from "react";
-type MyPayload = {
-  name: string;
-  username: string;
-  avatar: string;
-  id: string;
-};
 
-interface Props {
-  onClose: () => void;
-}
-
-export default function EditProfile({onClose}: Props) {
+export default function EditProfile({ onClose }: Props) {
   const [preview, setPreview] = useState<string | null>(null);
   const [name, setName] = useState<any | null>(null);
   const [username, setUsername] = useState<any | null>(null);
@@ -69,7 +60,10 @@ export default function EditProfile({onClose}: Props) {
   }
   return (
     <div className="w-full h-screen sm:w-[24rem] sm:h-auto bg-[var(--post-background)] p-6 rounded-2xl shadow-xl">
-      <button onClick={onClose} className="flex justify-end w-full cursor-pointer">
+      <button
+        onClick={onClose}
+        className="flex justify-end w-full cursor-pointer"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

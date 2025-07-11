@@ -4,13 +4,11 @@ import React, { use, useEffect, useState } from "react";
 import Post from "@/app/components/posts/Post";
 import UserProfileLoading from "@/app/components/loading/UserProfileLoading";
 import PostsLoading from "@/app/components/loading/PostsLoading";
-type Params = Promise<{ username: string }>;
+import { PropsParams } from "@/app/exports/exports";
 
-interface Props {
-  params: Params;
-}
 
-export default function Page({ params }: Props) {
+
+export default function Page({ params }: PropsParams) {
   const { username } = use(params);
 
   const [sendRequest, setSendRequest] = useState(false);

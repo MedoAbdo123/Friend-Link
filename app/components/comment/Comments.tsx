@@ -3,12 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { SendHorizontal } from "lucide-react";
 import { useCommentsCache } from "@/app/contexts/CommentsContext";
 import { jwtDecode } from "jwt-decode";
+import { Props } from "@/app/exports/exports";
 
-interface Props {
-  onClose: () => void;
-  postId: string;
-  onCommentChange?: (delta: number) => void;
-}
+
 
 export default function Comments({ onClose, postId, onCommentChange }: Props) {
   const [comments, setComments] = useState<any[]>([]);

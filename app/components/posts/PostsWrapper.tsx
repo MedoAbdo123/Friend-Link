@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Post from "./Post";
-import { PostProps } from "@/app/props/props";
+import { PostProps } from "@/app/exports/exports";
 
 interface PostsWrapperProps {
   initialPosts: PostProps[];

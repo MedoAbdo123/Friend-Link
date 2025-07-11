@@ -70,7 +70,7 @@ function MyProfile({ data }: any) {
           </svg>
         </button>
       </section>
-      <section className="flex flex-col items-center p-3">{postsJSX}</section>
+      <section className="flex flex-col items-center p-3 space-y-7">{postsJSX}</section>
       {showEditProfile == true && (
         <div className="fixed inset-0 flex items-center justify-center h-screen z-50 bg-black/30">
           <EditProfile onClose={() => setShowEditProfile(false)} />
