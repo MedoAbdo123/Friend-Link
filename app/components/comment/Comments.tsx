@@ -5,8 +5,6 @@ import { useCommentsCache } from "@/app/contexts/CommentsContext";
 import { jwtDecode } from "jwt-decode";
 import { Props } from "@/app/exports/exports";
 
-
-
 export default function Comments({ onClose, postId, onCommentChange }: Props) {
   const [comments, setComments] = useState<any[]>([]);
   const { commentsCache, setCommentsCache } = useCommentsCache();
@@ -123,9 +121,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       const data = await res.json();
       setComments((prev) =>
         prev.map((comment) =>
-          comment._id === commentId
-            ? { ...comment, ...data.comment }
-            : comment
+          comment._id === commentId ? { ...comment, ...data.comment } : comment
         )
       );
 

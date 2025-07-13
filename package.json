@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@heroicons/react": "^2.2.0",
+    "emoji-mart": "^5.2",
+    "emoji-picker-react": "^4.12.3",
     "framer-motion": "^12.19.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.516.0",
@@ -21,7 +25,8 @@
     "react-spinners": "^0.17.0",
     "react-toastify": "^11.0.5",
     "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "twemoji": "^14.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

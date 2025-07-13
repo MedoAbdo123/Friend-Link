@@ -1,11 +1,13 @@
 "use client";
 import { Image, Send } from "lucide-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Friends from "../components/friends/Friends";
 import { ChatProps, MessageProps, MyPayload } from "../exports/exports";
+import EmojiPicker from "emoji-picker-react";
 import { jwtDecode } from "jwt-decode";
 import { WebsocketContext } from "../contexts/WebsocketContext";
+import twemoji from "twemoji";
 
 function Chat({ firendsData }: ChatProps) {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -16,8 +18,17 @@ function Chat({ firendsData }: ChatProps) {
   const [selectedFriend, setSelectedFriend] = useState<any>(null);
   const [typeMessage, setTypeMessage] = useState("");
   const [roomId, setRoomId] = useState("");
-
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [contextMenu, setContextMenu] = useState<{
+    x: number;
+    y: number;
+    message: MessageProps | null;
+  } | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const socket = useContext(WebsocketContext);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -25,6 +36,16 @@ function Chat({ firendsData }: ChatProps) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      twemoji.parse(ref.current, {
+        folder: "svg",
+        ext: ".svg",
+        base: "https://unpkg.com/twemoji@14.0.2/dist/",
+      });
+    }
+  }, [messages]);
 
   useEffect(() => {
     const tokenCookie = document.cookie
@@ -42,11 +63,35 @@ function Chat({ firendsData }: ChatProps) {
     }
   }, []);
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [messages]);
   const friends = firendsData;
 
   function handleShowMessages() {
     setShowMessages(!showMessages);
   }
+
+  function handleRigthClick(e: React.MouseEvent, message: MessageProps) {
+    e.preventDefault();
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      message,
+    });
+  }
+
+  useEffect(() => {
+    function handleClick() {
+      setContextMenu(null);
+    }
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, []);
 
   async function getMessages(roomId: string, friend: any) {
     handleShowMessages();
@@ -61,54 +106,135 @@ function Chat({ firendsData }: ChatProps) {
     setMessages(data);
   }
 
-  async function sendMessage() {
-    const res = await fetch(`http://localhost:3000/messages`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ message: typeMessage, roomId: roomId }),
-    });
-    const data = await res.json();
+  async function sendMessage(e: React.FormEvent) {
+    e.preventDefault();
 
-    return data;
+    if (!typeMessage.trim()) return;
+
+    if (isEditing && editingMessageId) {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/messages/${editingMessageId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ message: typeMessage }),
+          }
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          console.log("Edited message response:", data);
+
+          setMessages((prev) =>
+            prev.map((message) =>
+              message._id === editingMessageId
+                ? { ...message, message: data.message }
+                : message
+            )
+          );
+
+          socket.emit("editMessage", data);
+
+          setIsEditing(false);
+          setEditingMessageId(null);
+          setTypeMessage("");
+        }
+      } catch (error) {
+        console.error("Error editing message:", error);
+      }
+    } else {
+      try {
+        const res = await fetch(`http://localhost:3000/messages`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ message: typeMessage, roomId: roomId }),
+        });
+
+        if (res.ok) {
+          setTypeMessage("");
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    }
   }
 
   useEffect(() => {
-    if (socket) {
-      console.log("Already connected!");
-      socket.on("onMessage", (newMessage: MessageProps) => {
-        console.log(newMessage);
-        setMessages((prev) => [...prev, newMessage]);
-        console.log("newMessage");
-      });
+    if (!socket) return;
 
-      socket.on("connect", () => {
-        console.log("Connected to WebSocket!");
-      });
-    }
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket!");
+    });
 
     socket.on("disconnect", () => {
       console.log("Disconnected from WebSocket!");
     });
 
+    socket.on("messageEdited", (updatedMessage: MessageProps) => {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg._id === updatedMessage._id ? updatedMessage : msg
+        )
+      );
+    });
+
+    socket.on("onMessage", (newMessage: MessageProps) => {
+      setMessages((prev) => [...prev, newMessage]);
+    });
+
+    socket.on("messageDeleted", (deletedMessageId: string) => {
+      setMessages((prev) => prev.filter((msg) => msg._id !== deletedMessageId));
+    });
+
     return () => {
-      if (socket) {
-        socket.off("connect");
-        socket.off("disconnect");
-        socket.off("onMessage");
-      }
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("messageEdited");
+      socket.off("onMessage");
+      socket.off("messageDeleted");
     };
   }, [socket]);
+
+  async function EditMessage(messageId: string) {
+    const messageToEdit = messages.find((msg) => msg._id === messageId);
+    if (!messageToEdit) return;
+
+    setTypeMessage(messageToEdit.message);
+
+    setIsEditing(true);
+    setEditingMessageId(messageId);
+
+    setContextMenu(null);
+  }
 
   useEffect(() => {
     if (socket && roomId) {
       socket.emit("joinRoom", roomId);
-      console.log(`Joined room: ${roomId}`);
     }
   }, [socket, roomId]);
+
+  async function deleteMessage(messageId: string) {
+    const res = await fetch(`http://localhost:3000/messages/${messageId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.ok) {
+      setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
+    }
+
+    socket.emit("deleteMessage", { messageId, roomId });
+  }
 
   return (
     <article className="w-full min-h-screen sm:py-2 sm:px-4 flex gap-4">
@@ -202,12 +328,13 @@ function Chat({ firendsData }: ChatProps) {
       )}
       {showMessages ? (
         <section
+          ref={ref}
           className={`flex-grow flex flex-col h-screen message-app bg-gray-800 sm:rounded-2xl border border-gray-600 ${
             windowWidth < 1280 ? (showMessages ? "block" : "hidden") : "block"
           }`}
         >
           <div className="flex flex-col sticky top-[-2px] sm:top-0 z-10">
-            <header className="p-6 flex items-center gap-2 sticky top-[-2px]  bg-gray-800 backdrop-blur z-10">
+            <header className="p-6 flex items-center gap-2 sticky top-[-2px] bg-gray-800 backdrop-blur z-10">
               <button
                 onClick={() => setShowMessages(false)}
                 className="transition-all duration-300 hover:bg-gray-700 p-2 rounded cursor-pointer"
@@ -225,43 +352,106 @@ function Chat({ firendsData }: ChatProps) {
             </header>
             <hr className="text-gray-600" />
           </div>
-          {messages?.map((message) => (
-            <main
-              key={message._id}
-              className={`flex w-full h-screen mt-1 ${
-                message.senderId._id === decoded?.id
-                  ? "justify-end"
-                  : "justify-start"
-              } mb-2`}
-            >
-              <div>
-                {message.senderId._id === decoded?.id ? (
-                  <section className="px-5">
-                    <div className="chat-bubble-left max-w-130 h-auto bg-[#1225EB] text-white p-4 rounded-lg">
-                      {message.message}
-                    </div>
-                  </section>
-                ) : (
-                  <section className="p-4 gap-2 space-y-3">
-                    <div className="flex gap-2">
-                      <img
-                        src={message.senderId.avatar}
-                        className="size-10 object-cover rounded-full place-self-end"
-                      />
-                      <div className="chat-bubble max-w-130 h-auto bg-[#828282] p-5 text-white rounded-tl-lg rounded-tr-lg rounded-br-lg">
+
+          <div className="flex-1">
+            {messages?.map((message) => (
+              <main
+                key={message._id}
+                className={`flex w-full mt-1 mb-3 transition-all duration-300 ${
+                  message.senderId._id === decoded?.id
+                    ? "justify-end"
+                    : "justify-start"
+                }`}
+              >
+                <div>
+                  {message.senderId._id === decoded?.id ? (
+                    <section className="px-5">
+                      <div
+                        onContextMenu={(e) => handleRigthClick(e, message)}
+                        className="chat-bubble-left max-w-130 h-auto bg-[#1225EB] text-white p-4 rounded-lg"
+                      >
                         {message.message}
                       </div>
-                    </div>
-                  </section>
+                    </section>
+                  ) : (
+                    <section className="px-4">
+                      <div className="flex gap-2">
+                        <img
+                          src={message.senderId.avatar}
+                          className="size-10 object-cover rounded-full place-self-end"
+                        />
+                        <div className="chat-bubble max-w-130 h-auto bg-[#828282] p-4 text-white rounded-tl-lg rounded-tr-lg rounded-br-lg">
+                          {message.message}
+                        </div>
+                      </div>
+                    </section>
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+                {contextMenu?.message && (
+                  <div
+                    className="absolute overflow-hidden bg-gray-700 text-white rounded shadow-md z-50"
+                    style={{ top: contextMenu.y, left: contextMenu.x }}
+                    onClick={() => setContextMenu(null)}
+                  >
+                    <button
+                      onClick={() => {
+                        EditMessage(contextMenu.message!._id);
+                      }}
+                      className="px-4 gap-2 flex items-center py-2 hover:bg-gray-600 w-full text-left"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="size-4"
+                      >
+                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                      </svg>
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        deleteMessage(contextMenu.message?._id || "");
+                        setContextMenu(null);
+                      }}
+                      className="px-4 flex gap-2 items-center py-2 hover:bg-gray-600 w-full text-left"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="size-4"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Delete
+                    </button>
+                  </div>
                 )}
+              </main>
+            ))}
+          </div>
+          <div className="w-full flex justify-end pr-2">
+            {showEmojiPicker && (
+              <div
+                className="absolute bottom-20 z-50"
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                <EmojiPicker
+                  onEmojiClick={(emojiData) => {
+                    setTypeMessage((prev) => prev + emojiData.emoji);
+                  }}
+                />
               </div>
-            </main>
-          ))}
+            )}
+          </div>
           <section className="w-full p-4 h-19 flex justify-center sticky bottom-0 border-t-1 bg-gray-800 border-gray-600">
-            <form
-              onSubmit={() => sendMessage}
-              className="w-full flex justify-center"
-            >
+            <form onSubmit={sendMessage} className="w-full flex justify-center">
               <input
                 type="text"
                 className="border border-gray-600 w-[98%] rounded-md px-4 pr-9"
@@ -276,7 +466,8 @@ function Chat({ firendsData }: ChatProps) {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-4 relative top-3.5 right-8"
+                className="size-8 relative top-1.5 right-8 hover:bg-gray-500 p-1 rounded-full transition-all duration-300"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
               >
                 <path
                   strokeLinecap="round"
@@ -284,18 +475,18 @@ function Chat({ firendsData }: ChatProps) {
                   d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
                 />
               </svg>
+              <div className="flex items-center space-x-3">
+                <button type="button">
+                  <Image size={20} />
+                </button>
+                <button
+                  type="submit"
+                  className="bg-[#1225EB] p-3 cursor-pointer flex items-center rounded-md"
+                >
+                  <Send size={20} />
+                </button>
+              </div>
             </form>
-            <div className="flex items-center space-x-3">
-              <button>
-                <Image size={20} />
-              </button>
-              <button
-                onClick={() => sendMessage()}
-                className="bg-[#1225EB] p-3 cursor-pointer flex items-center rounded-md"
-              >
-                <Send size={20} />
-              </button>
-            </div>
           </section>
         </section>
       ) : (

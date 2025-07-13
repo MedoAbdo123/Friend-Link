@@ -105,3 +105,32 @@ body {
   border-bottom: -1px solid transparent;
   border-left: 15px solid #1225EB;
 }
+.epr-main {
+  background-color: #005 !important; /* دا Tailwind's gray-800 */
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.epr-body {
+  background-color: transparent !important;
+}
+.epr-emoji-category-label {
+  background-color: #005 !important;
+  color: #1077dd !important;
+}
+.emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1.5rem; /* حسب المقاس */
+}
+.emoji-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+.chat-bubble {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI", sans-serif;
+  font-size: 1.1rem; /* حجم الإيموجي مع النص */
+  line-height: 1.4;
+  white-space: pre-wrap; /* يحافظ على المسافات والسطور */
+  word-wrap: break-word;
+}

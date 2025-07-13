@@ -5,6 +5,7 @@ interface Friend {
     _id: string;
   };
   roomId: string;
+
 }
 
 export interface ChatProps {
@@ -14,6 +15,7 @@ export interface ChatProps {
 export interface Props {
   onClose: () => void;
   onCommentChange?: (delta: number) => void;
+  postId: string;
 }
 
 export interface FriendProps {
