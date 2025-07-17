@@ -10,7 +10,7 @@ async function requestPage() {
       throw new Error("No token found");
     }
 
-    const res = await fetch("http://localhost:3000/friend", {
+    const res = await fetch("https://friend-link-api.vercel.app//friend", {
       method: "GET",
       cache: "no-store",
       headers: {
@@ -20,7 +20,7 @@ async function requestPage() {
       },
     });
 
-    const resUsers = await fetch("http://localhost:3000/user", {
+    const resUsers = await fetch("https://friend-link-api.vercel.app//user", {
       method: "GET",
       cache: "no-store",
       headers: {
@@ -30,21 +30,26 @@ async function requestPage() {
       },
     });
 
-    const RequestsPending = await fetch("http://localhost:3000/friend/pending", {
-      method: "GET",
-      cache: "no-store",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+    const RequestsPending = await fetch(
+      "https://friend-link-api.vercel.app//friend/pending",
+      {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
 
     const users = await resUsers.json();
     const data = await res.json();
-    const requestsPending = await RequestsPending.json()
+    const requestsPending = await RequestsPending.json();
 
-    return <RequestsClient data={data} users={users} pending={requestsPending} />;
+    return (
+      <RequestsClient data={data} users={users} pending={requestsPending} />
+    );
   } catch (error) {
     console.error(error);
     return <RequestsClient data={{ error: String(error) }} />;

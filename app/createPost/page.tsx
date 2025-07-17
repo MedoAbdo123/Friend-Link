@@ -23,7 +23,7 @@ function page() {
     formData.append("image", image);
     try {
       const token = localStorage.getItem("token");
-      await fetch("http://localhost:3000/post/create", {
+      await fetch("https://friend-link-api.vercel.app//post/create", {
         method: "POST",
         headers: {
           Accept: "application/json",

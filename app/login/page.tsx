@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
 
-    fetch("http://localhost:3000/user/login", {
+    fetch("https://friend-link-api.vercel.app//user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +46,9 @@ function Login() {
         setShowToast(true);
         setIsSuccess(true);
         localStorage.setItem("token", data.data.token);
-        document.cookie = `token=${data.data.token}; path=/; max-age=${7 * 24 * 60 * 60};`;
+        document.cookie = `token=${data.data.token}; path=/; max-age=${
+          7 * 24 * 60 * 60
+        };`;
         setTimeout(() => {
           router.push("/");
         }, 1000);

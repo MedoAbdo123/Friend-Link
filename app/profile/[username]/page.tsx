@@ -38,9 +38,12 @@ export default function Page({ params }: PropsParams) {
   useEffect(() => {
     async function getPosts() {
       try {
-        const res = await fetch(`http://localhost:3000/post/${username}`, {
-          method: "GET",
-        });
+        const res = await fetch(
+          `https://friend-link-api.vercel.app//post/${username}`,
+          {
+            method: "GET",
+          }
+        );
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setPosts(data);
@@ -69,7 +72,7 @@ export default function Page({ params }: PropsParams) {
     async function loadStatus() {
       try {
         const res = await fetch(
-          `http://localhost:3000/friend/getStatus/${userData._id}`,
+          `https://friend-link-api.vercel.app//friend/getStatus/${userData._id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -99,7 +102,7 @@ export default function Page({ params }: PropsParams) {
       return;
     }
 
-    const res = await fetch("http://localhost:3000/friend", {
+    const res = await fetch("https://friend-link-api.vercel.app//friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -118,12 +121,15 @@ export default function Page({ params }: PropsParams) {
   async function DeclineRequest() {
     const found = addedFriend.find((item) => item.requestId);
     const requestId = found?.requestId;
-    const res = await fetch(`http://localhost:3000/friend/${requestId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `https://friend-link-api.vercel.app//friend/${requestId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await res.json();
     setSendRequest(!sendRequest);
     setStatus("none");

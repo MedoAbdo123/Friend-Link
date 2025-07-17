@@ -6,7 +6,7 @@ import Header from "./layout/Layout";
 import AlertMessage from "./components/aletMessage/AlertMessage";
 export default async function Home() {
   const res = await fetch(
-    "http://localhost:3000/post/allPosts?skip=0&limit=10",
+    "https://friend-link-api.vercel.app//post/allPosts?skip=0&limit=10",
     {
       cache: "no-store",
     }
@@ -30,7 +30,7 @@ export default async function Home() {
           <PostsWrapper initialPosts={data.data} />
         </Suspense>
       </div>
-      
+
       <div className="w-full flex justify-end py-5 px-4">
         <DarkMode />
       </div>

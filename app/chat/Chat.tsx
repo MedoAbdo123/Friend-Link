@@ -131,12 +131,15 @@ function Chat({ firendsData }: ChatProps) {
   async function getMessages(roomId: string, friend: any) {
     handleShowMessages();
     setSelectedFriend(friend);
-    const res = await fetch(`http://localhost:3000/messages/${roomId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `https://friend-link-api.vercel.app//messages/${roomId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await res.json();
     setMessages(data);
   }
@@ -149,7 +152,7 @@ function Chat({ firendsData }: ChatProps) {
     if (isEditing && editingMessageId) {
       try {
         const res = await fetch(
-          `http://localhost:3000/messages/${editingMessageId}`,
+          `https://friend-link-api.vercel.app//messages/${editingMessageId}`,
           {
             method: "PATCH",
             headers: {
@@ -186,13 +189,16 @@ function Chat({ firendsData }: ChatProps) {
         formData.append("message", typeMessage);
         if (photo) formData.append("photo", photo);
         formData.append("roomId", roomId);
-        const res = await fetch(`http://localhost:3000/messages`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
+        const res = await fetch(
+          `https://friend-link-api.vercel.app//messages`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
 
         if (res.ok) {
           setTypeMessage("");
@@ -252,19 +258,22 @@ function Chat({ firendsData }: ChatProps) {
   }, [socket, roomId]);
 
   async function deleteMessage(messageId: string) {
-    const res = await fetch(`http://localhost:3000/messages/${messageId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `https://friend-link-api.vercel.app//messages/${messageId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (res.ok) {
       setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
     }
 
     socket.emit("deleteMessage", { messageId, roomId });
-    setShowAlert(false)
+    setShowAlert(false);
   }
 
   function handleSelectPhoto(e: ChangeEvent<HTMLInputElement>) {

@@ -47,7 +47,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       return;
     }
 
-    fetch(`http://localhost:3000/comment/${postId}`, {
+    fetch(`https://friend-link-api.vercel.app//comment/${postId}`, {
       method: "GET",
       cache: "no-store",
     })
@@ -69,7 +69,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/comment", {
+      const res = await fetch("https://friend-link-api.vercel.app//comment", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -104,18 +104,21 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch(`http://localhost:3000/comment/${commentId}`, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify({
-          content: newContent,
-          commentId,
-        }),
-      });
+      const res = await fetch(
+        `https://friend-link-api.vercel.app//comment/${commentId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            content: newContent,
+            commentId,
+          }),
+        }
+      );
 
       if (!res.ok) {
         throw new Error("فشل تعديل التعليق");
@@ -174,7 +177,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
 
   async function deleteComment(commentId: string) {
     const token = localStorage.getItem("token");
-    await fetch(`http://localhost:3000/comment/${commentId}`, {
+    await fetch(`https://friend-link-api.vercel.app//comment/${commentId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -189,7 +192,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       [postId]: prev[postId]?.filter((c) => c._id !== commentId) || [],
     }));
     onCommentChange?.(-1);
-    setShowAlert(false)
+    setShowAlert(false);
   }
 
   return (

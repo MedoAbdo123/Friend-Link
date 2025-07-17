@@ -11,9 +11,12 @@ function page({ params }: PropsParams) {
 
   useEffect(() => {
     async function getTitleAndContent() {
-      const res = await fetch(`http://localhost:3000/post/update/${postId}`, {
-        method: "PATCH",
-      });
+      const res = await fetch(
+        `https://friend-link-api.vercel.app//post/update/${postId}`,
+        {
+          method: "PATCH",
+        }
+      );
       const data = await res.json();
       setTitle(data.data.post.title);
       setContent(data.data.post.content);
@@ -28,7 +31,7 @@ function page({ params }: PropsParams) {
 
     const token = localStorage.getItem("token");
     try {
-      await fetch(`http://localhost:3000/post/update/${postId}`, {
+      await fetch(`https://friend-link-api.vercel.app//post/update/${postId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

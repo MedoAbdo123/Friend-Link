@@ -33,7 +33,7 @@ function Register() {
     e.preventDefault();
     setLoading(true);
 
-    fetch("http://localhost:3000/user/register", {
+    fetch("https://friend-link-api.vercel.app//user/register", {
       method: "POST",
       body: formData,
     })
@@ -49,7 +49,9 @@ function Register() {
         setShowToast(true);
         setIsSuccess(true);
         localStorage.setItem("token", data.token);
-        document.cookie = `token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60};`;
+        document.cookie = `token=${data.token}; path=/; max-age=${
+          7 * 24 * 60 * 60
+        };`;
         setTimeout(() => {
           router.push("/");
         }, 1000);

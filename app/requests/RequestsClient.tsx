@@ -28,7 +28,7 @@ function RequestsClient({ data, users, pending }: any) {
   }, []);
 
   async function AcceptRequest(requestId: string) {
-    await fetch(`http://localhost:3000/friend/${requestId}`, {
+    await fetch(`https://friend-link-api.vercel.app//friend/${requestId}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ function RequestsClient({ data, users, pending }: any) {
     setRequsests((prev) => prev.filter((user) => user._id !== requestId));
   }
   async function SendRequest(receiverId: string) {
-    const res = await fetch("http://localhost:3000/friend", {
+    const res = await fetch("https://friend-link-api.vercel.app//friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ function RequestsClient({ data, users, pending }: any) {
   }
 
   async function DeclineRequest(requestId: string) {
-    await fetch(`http://localhost:3000/friend/${requestId}`, {
+    await fetch(`https://friend-link-api.vercel.app//friend/${requestId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -88,12 +88,15 @@ function RequestsClient({ data, users, pending }: any) {
     }
 
     try {
-      await fetch(`http://localhost:3000/friend/${targetRequestId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await fetch(
+        `https://friend-link-api.vercel.app//friend/${targetRequestId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setaddedFriend((prev) => prev.filter((item) => item.userId !== userId));
       setStatusPending((prev) =>

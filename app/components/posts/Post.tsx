@@ -78,7 +78,7 @@ function Post({
       router.push("/login");
       setIsLiked(isLiked);
     }
-    await fetch(`http://localhost:3000/post/like/${postId}`, {
+    await fetch(`https://friend-link-api.vercel.app//post/like/${postId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -104,14 +104,14 @@ function Post({
 
   async function handleDeletePost(postId: string) {
     const token = localStorage.getItem("token");
-    await fetch(`http://localhost:3000/post/delete/${postId}`, {
+    await fetch(`https://friend-link-api.vercel.app//post/delete/${postId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    setShowAlert(false)
-    window.location.reload()
+    setShowAlert(false);
+    window.location.reload();
   }
 
   return (
@@ -320,7 +320,7 @@ function Post({
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
           <AlertMessage
             no={() => setShowAlert(false)}
-            yes={() =>  handleDeletePost(_id || "")}
+            yes={() => handleDeletePost(_id || "")}
             text="Do you really want to delete the post?"
           />
         </div>
