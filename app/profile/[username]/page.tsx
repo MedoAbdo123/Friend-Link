@@ -5,9 +5,6 @@ import Post from "@/app/components/posts/Post";
 import UserProfileLoading from "@/app/components/loading/UserProfileLoading";
 import PostsLoading from "@/app/components/loading/PostsLoading";
 import { PropsParams } from "@/app/exports/exports";
-
-
-
 export default function Page({ params }: PropsParams) {
   const { username } = use(params);
 
@@ -80,8 +77,8 @@ export default function Page({ params }: PropsParams) {
         );
         if (!res.ok) throw new Error("Failed to fetch status");
         const json = await res.json();
-        console.log(json)
-        setaddedFriend([{requestId: json.status._id}])
+        console.log(json);
+        setaddedFriend([{ requestId: json.status._id }]);
         setStatus(json.status.status);
       } catch (err) {
         console.error(err);
@@ -141,6 +138,7 @@ export default function Page({ params }: PropsParams) {
         <Post
           key={post._id}
           name={post.name}
+          user={post.user}
           username={post.username}
           userPhoto={post.user.avatar}
           image={post.image}

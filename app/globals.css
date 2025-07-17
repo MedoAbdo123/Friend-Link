@@ -39,7 +39,6 @@
   --bg-chat: rgba(255,255,255,0.1);
 }
 
-/* Optional: Custom props */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -75,7 +74,7 @@ body {
 .chat-bubble {
   position: relative;
 }
-.chat-bubble-left {
+.chat-bubble-right {
   position: relative;
 }
 .chat-bubble::before {
@@ -90,11 +89,11 @@ body {
   border-right: 8px solid #828282;
 }
 
-.chat-bubble-right {
+.chat-bubble-left {
   position: relative;
 }
 
-.chat-bubble-left::before {
+.chat-bubble-right::before {
   content: "";
   position: absolute;
   right: -9px;
@@ -103,10 +102,10 @@ body {
   height: 0;
   border-top: 15px solid transparent;
   border-bottom: -1px solid transparent;
-  border-left: 15px solid #1225EB;
+  border-left: 15px solid #6002B7;
 }
 .epr-main {
-  background-color: #005 !important; /* دا Tailwind's gray-800 */
+  background-color: #005 !important;
   border-radius: 12px;
   padding: 10px;
 }
@@ -120,7 +119,7 @@ body {
 }
 .emoji {
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  font-size: 1.5rem; /* حسب المقاس */
+  font-size: 1.5rem;
 }
 .emoji-text {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", sans-serif;
@@ -129,8 +128,8 @@ body {
 }
 .chat-bubble {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI", sans-serif;
-  font-size: 1.1rem; /* حجم الإيموجي مع النص */
+  font-size: 1.1rem;
   line-height: 1.4;
-  white-space: pre-wrap; /* يحافظ على المسافات والسطور */
+  white-space: pre-wrap;
   word-wrap: break-word;
 }

@@ -3,9 +3,10 @@ import Link from "next/link";
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import Comments from "../comment/Comments";
-import { PostProps } from "@/app/props/props";
+import { PostProps } from "@/app/exports/exports";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
+import AlertMessage from "../aletMessage/AlertMessage";
 function Post({
   title,
   content,
@@ -18,6 +19,7 @@ function Post({
   likedUsers,
   _id,
   username,
+  user,
 }: PostProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showReadMore, setShowReadMore] = useState(false);
@@ -27,14 +29,21 @@ function Post({
   const [isLiked, setIsLiked] = useState(false);
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const router = useRouter();
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({
+    x: 0,
+    y: 0,
+  });
 
-  let userId: string | null = null;
+  const [userId, setUserId] = useState<string | null>(null);
+  const [postId, setPostId] = useState<string | null>(null);
+  const [showAlert, setShowAlert] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
       const decoded: any = jwtDecode(token);
-      userId = decoded?.id;
+      setUserId(decoded?.id);
     }
 
     if (userId && likedUsers?.includes(userId)) {
@@ -82,17 +91,128 @@ function Post({
     setIsLiked(!isLiked);
   }
 
+  useEffect(() => {
+    function handleOutsideClick() {
+      setContextMenuVisible(false);
+    }
+
+    window.addEventListener("click", handleOutsideClick);
+    return () => {
+      window.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+  async function handleDeletePost(postId: string) {
+    const token = localStorage.getItem("token");
+    await fetch(`http://localhost:3000/post/delete/${postId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setShowAlert(false)
+    window.location.reload()
+  }
+
   return (
     <article className="flex flex-col text-[var(--post-foreground)] w-auto bg-[var(--post-background)] min-h-auto sm:w-[600px] border-1 rounded-2xl shadow-lg shadow-white post">
       <div className="w-full flex flex-row-reverse items-center justify-between p-4">
-        <span className="text-sm">{timeAgo}</span>
+        <div className="w-full flex flex-col items-end">
+          {user && userId == user._id && (
+            <div className="text-end">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6 cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const rect = e.currentTarget.getBoundingClientRect();
+
+                  setContextMenuVisible(true);
+                  setContextMenuPosition({
+                    x: rect.left + window.scrollX,
+                    y: rect.bottom + window.scrollY,
+                  });
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+                />
+              </svg>
+            </div>
+          )}
+
+          {contextMenuVisible && (
+            <div
+              className="absolute bg-gray-800 text-white rounded shadow-md z-50"
+              style={{
+                position: "absolute",
+              }}
+              onClick={() => setContextMenuVisible(false)}
+            >
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setContextMenuVisible(false);
+                  router.push(`/post/${_id}`);
+                  console.log("Edit post:", _id);
+                }}
+                className="px-4 py-2 w-full text-left hover:bg-gray-700 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Edit
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setContextMenuVisible(false);
+                  setShowAlert(true);
+                }}
+                className="px-4 py-2 w-full text-left hover:bg-gray-700 flex items-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-4 mr-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                  />
+                </svg>{" "}
+                Delete
+              </button>
+            </div>
+          )}
+          <span className="text-sm">{timeAgo}</span>
+        </div>
         <header className="flex items-center h-12 gap-2">
           <img
             src={userPhoto}
-            alt="Medo Abdo profile"
+            alt="user profile"
             className="size-10 rounded-full object-cover"
           />
-          <Link href={`/profile/${username}`} className="font-bold">
+          <Link href={`/profile/${username}`} className="font-bold text-nowrap">
             {name}
           </Link>
           <Link href={`/profile/${username}`} className="text-xs text-gray-600">
@@ -196,6 +316,16 @@ function Post({
           </button>
         </div>
       </section>
+
+      {showAlert == true && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
+          <AlertMessage
+            no={() => setShowAlert(false)}
+            yes={() =>  handleDeletePost(_id || "")}
+            text="Do you really want to delete the post?"
+          />
+        </div>
+      )}
 
       {showComment && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/30">

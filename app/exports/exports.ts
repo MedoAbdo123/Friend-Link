@@ -5,7 +5,7 @@ interface Friend {
     _id: string;
   };
   roomId: string;
-
+  lastMessage: string;
 }
 
 export interface ChatProps {
@@ -22,12 +22,14 @@ export interface FriendProps {
   name: string;
   avatar: string;
   onClick: () => void;
+  lastMessage?: string;
 }
 
 export interface PostProps {
   title: string;
   content: string;
   image: string;
+  user: { _id: string };
   likes: number;
   commentNumber: number;
   name: string;
@@ -53,7 +55,7 @@ export interface Props {
   onClose: () => void;
 }
 
-type Params = Promise<{ username: string }>;
+type Params = Promise<{ username: string; postId: string }>;
 export interface PropsParams {
   params: Params;
 }
@@ -69,14 +71,23 @@ export interface ToastProps {
 
 export interface MessageProps {
   message: string;
+  photo: string;
+  edited: string;
+  createdAt: string;
   senderId: {
     name: string;
     avatar: string;
     _id: string;
   };
-  _id: string
+  linkPreview: {
+    title: string;
+    description: string;
+    image: string;
+    url: string;
+  };
+  _id: string;
 }
 
-export interface MessagePaload  {
+export interface MessagePaload {
   message: string;
-};
+}

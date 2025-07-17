@@ -4,11 +4,14 @@ import { SendHorizontal } from "lucide-react";
 import { useCommentsCache } from "@/app/contexts/CommentsContext";
 import { jwtDecode } from "jwt-decode";
 import { Props } from "@/app/exports/exports";
+import AlertMessage from "../aletMessage/AlertMessage";
 
 export default function Comments({ onClose, postId, onCommentChange }: Props) {
   const [comments, setComments] = useState<any[]>([]);
   const { commentsCache, setCommentsCache } = useCommentsCache();
   const [content, setContent] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [commentId, setCommentId] = useState("");
   const [selectedCommentId, setSelectedCommentId] = useState<string | null>(
     null
   );
@@ -137,7 +140,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
 
       return data;
     } catch (error) {
-      console.error("خطأ في التعديل:", error);
+      console.error("Edit error:", error);
       return null;
     }
   }
@@ -186,6 +189,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       [postId]: prev[postId]?.filter((c) => c._id !== commentId) || [],
     }));
     onCommentChange?.(-1);
+    setShowAlert(false)
   }
 
   return (
@@ -266,12 +270,12 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
                       {selectedCommentId === comment._id && (
                         <div
                           ref={menuRef}
-                          className="absolute right-0 mt-2 bg-white rounded-lg shadow-lg text-gray-800 text-sm w-32 z-10"
+                          className="absolute right-0 mt-2 bg-gray-700 text-white rounded-lg shadow-lg text-sm w-32 z-10"
                         >
                           <button
                             type="button"
                             onClick={() => startEditing(comment)}
-                            className="w-full flex h-full items-center gap-1 text-left px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-t"
+                            className="w-full flex h-full items-center gap-1 text-left px-4 py-2 hover:bg-gray-800 cursor-pointer rounded-t"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -289,8 +293,11 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
                           </button>
                           <button
                             type="button"
-                            onClick={() => deleteComment(comment._id)}
-                            className="w-full text-left px-4 flex py-2 hover:bg-gray-100 cursor-pointer rounded-b"
+                            onClick={() => {
+                              setShowAlert(true);
+                              setCommentId(comment._id);
+                            }}
+                            className="w-full text-left px-4 flex py-2 hover:bg-gray-800 cursor-pointer rounded-b"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -354,6 +361,16 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
           </button>
         </div>
       </form>
+
+      {showAlert == true && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
+          <AlertMessage
+            no={() => setShowAlert(false)}
+            yes={() => deleteComment(commentId)}
+            text="Do you really want to delete the comment?"
+          />
+        </div>
+      )}
     </div>
   );
 }

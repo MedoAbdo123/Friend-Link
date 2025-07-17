@@ -73,6 +73,7 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
           content={post.content}
           image={post.image}
           timeAgo={post.timeAgo}
+          user={post.user}
           userPhoto={post.user.avatar}
           name={post.user.name}
           likes={post.likes}

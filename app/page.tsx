@@ -3,6 +3,7 @@ import DarkMode from "./components/theme/DarkMode";
 import PostsLoading from "./components/loading/PostsLoading";
 import PostsWrapper from "./components/posts/PostsWrapper";
 import Header from "./layout/Layout";
+import AlertMessage from "./components/aletMessage/AlertMessage";
 export default async function Home() {
   const res = await fetch(
     "http://localhost:3000/post/allPosts?skip=0&limit=10",
@@ -29,6 +30,7 @@ export default async function Home() {
           <PostsWrapper initialPosts={data.data} />
         </Suspense>
       </div>
+      
       <div className="w-full flex justify-end py-5 px-4">
         <DarkMode />
       </div>

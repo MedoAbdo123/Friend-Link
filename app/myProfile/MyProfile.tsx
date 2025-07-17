@@ -11,7 +11,7 @@ function MyProfile({ data }: any) {
   }>(data[0]);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const user = data;
-  const [posts, setPosts] = useState<any[]>(data);
+  const posts: any[] = data;
   const postsJSX =
     posts.length >= 1 ? (
       posts.map((post) => (
@@ -22,6 +22,7 @@ function MyProfile({ data }: any) {
           userPhoto={post.user.avatar}
           image={post.image}
           _id={post._id}
+          user={post.user}
           commentNumber={post.commentsNumber}
           likedUsers={post.likedUsers}
           likes={post.likes}
@@ -70,10 +71,12 @@ function MyProfile({ data }: any) {
           </svg>
         </button>
       </section>
-      <section className="flex flex-col items-center p-3 space-y-7">{postsJSX}</section>
+      <section className="flex flex-col items-center p-3 space-y-7">
+        {postsJSX}
+      </section>
       {showEditProfile == true && (
         <div className="fixed inset-0 flex items-center justify-center h-screen z-50 bg-black/30">
-          <EditProfile onClose={() => setShowEditProfile(false)} />
+          <EditProfile onClose={() => setShowEditProfile(false)} postId="" />
         </div>
       )}
     </article>
