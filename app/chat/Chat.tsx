@@ -132,7 +132,7 @@ function Chat({ firendsData }: ChatProps) {
     handleShowMessages();
     setSelectedFriend(friend);
     const res = await fetch(
-      `https://friend-link-api.vercel.app//messages/${roomId}`,
+      `https://friendlink-api.onrender.com/messages/${roomId}`,
       {
         method: "GET",
         headers: {
@@ -152,7 +152,7 @@ function Chat({ firendsData }: ChatProps) {
     if (isEditing && editingMessageId) {
       try {
         const res = await fetch(
-          `https://friend-link-api.vercel.app//messages/${editingMessageId}`,
+          `https://friendlink-api.onrender.com/messages/${editingMessageId}`,
           {
             method: "PATCH",
             headers: {
@@ -190,7 +190,7 @@ function Chat({ firendsData }: ChatProps) {
         if (photo) formData.append("photo", photo);
         formData.append("roomId", roomId);
         const res = await fetch(
-          `https://friend-link-api.vercel.app//messages`,
+          `https://friendlink-api.onrender.com/messages`,
           {
             method: "POST",
             headers: {
@@ -259,7 +259,7 @@ function Chat({ firendsData }: ChatProps) {
 
   async function deleteMessage(messageId: string) {
     const res = await fetch(
-      `https://friend-link-api.vercel.app//messages/${messageId}`,
+      `https://friendlink-api.onrender.com/messages/${messageId}`,
       {
         method: "DELETE",
         headers: {

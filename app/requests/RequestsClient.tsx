@@ -28,7 +28,7 @@ function RequestsClient({ data, users, pending }: any) {
   }, []);
 
   async function AcceptRequest(requestId: string) {
-    await fetch(`https://friend-link-api.vercel.app//friend/${requestId}`, {
+    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ function RequestsClient({ data, users, pending }: any) {
     setRequsests((prev) => prev.filter((user) => user._id !== requestId));
   }
   async function SendRequest(receiverId: string) {
-    const res = await fetch("https://friend-link-api.vercel.app//friend", {
+    const res = await fetch("https://friendlink-api.onrender.com/friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ function RequestsClient({ data, users, pending }: any) {
   }
 
   async function DeclineRequest(requestId: string) {
-    await fetch(`https://friend-link-api.vercel.app//friend/${requestId}`, {
+    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ function RequestsClient({ data, users, pending }: any) {
 
     try {
       await fetch(
-        `https://friend-link-api.vercel.app//friend/${targetRequestId}`,
+        `https://friendlink-api.onrender.com/friend/${targetRequestId}`,
         {
           method: "DELETE",
           headers: {

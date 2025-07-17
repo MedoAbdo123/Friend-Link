@@ -47,7 +47,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       return;
     }
 
-    fetch(`https://friend-link-api.vercel.app//comment/${postId}`, {
+    fetch(`https://friendlink-api.onrender.com/comment/${postId}`, {
       method: "GET",
       cache: "no-store",
     })
@@ -69,7 +69,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://friend-link-api.vercel.app//comment", {
+      const res = await fetch("https://friendlink-api.onrender.com/comment", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -105,7 +105,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        `https://friend-link-api.vercel.app//comment/${commentId}`,
+        `https://friendlink-api.onrender.com/comment/${commentId}`,
         {
           method: "PATCH",
           headers: {
@@ -177,7 +177,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
 
   async function deleteComment(commentId: string) {
     const token = localStorage.getItem("token");
-    await fetch(`https://friend-link-api.vercel.app//comment/${commentId}`, {
+    await fetch(`https://friendlink-api.onrender.com/comment/${commentId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

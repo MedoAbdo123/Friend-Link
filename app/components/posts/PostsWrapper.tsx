@@ -44,7 +44,7 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
     setLoading(true);
     try {
       const res = await fetch(
-        `https://friend-link-api.vercel.app//post/allPosts?skip=${skip}&limit=${limit}`,
+        `https://friendlink-api.onrender.com/post/allPosts?skip=${skip}&limit=${limit}`,
         { cache: "no-store" }
       );
       const data = await res.json();

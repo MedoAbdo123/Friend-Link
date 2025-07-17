@@ -78,7 +78,7 @@ function Post({
       router.push("/login");
       setIsLiked(isLiked);
     }
-    await fetch(`https://friend-link-api.vercel.app//post/like/${postId}`, {
+    await fetch(`https://friendlink-api.onrender.com/post/like/${postId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -104,7 +104,7 @@ function Post({
 
   async function handleDeletePost(postId: string) {
     const token = localStorage.getItem("token");
-    await fetch(`https://friend-link-api.vercel.app//post/delete/${postId}`, {
+    await fetch(`https://friendlink-api.onrender.com/post/delete/${postId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

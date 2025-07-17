@@ -33,7 +33,7 @@ function Register() {
     e.preventDefault();
     setLoading(true);
 
-    fetch("https://friend-link-api.vercel.app//user/register", {
+    fetch("https://friendlink-api.onrender.com/user/register", {
       method: "POST",
       body: formData,
     })

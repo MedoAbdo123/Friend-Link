@@ -6,7 +6,7 @@ import Header from "./layout/Layout";
 import AlertMessage from "./components/aletMessage/AlertMessage";
 export default async function Home() {
   const res = await fetch(
-    "https://friend-link-api.vercel.app//post/allPosts?skip=0&limit=10",
+    "https://friendlink-api.onrender.com/post/allPosts?skip=0&limit=10",
     {
       cache: "no-store",
     }

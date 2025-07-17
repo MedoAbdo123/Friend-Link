@@ -39,7 +39,7 @@ export default function Page({ params }: PropsParams) {
     async function getPosts() {
       try {
         const res = await fetch(
-          `https://friend-link-api.vercel.app//post/${username}`,
+          `https://friendlink-api.onrender.com/post/${username}`,
           {
             method: "GET",
           }
@@ -72,7 +72,7 @@ export default function Page({ params }: PropsParams) {
     async function loadStatus() {
       try {
         const res = await fetch(
-          `https://friend-link-api.vercel.app//friend/getStatus/${userData._id}`,
+          `https://friendlink-api.onrender.com/friend/getStatus/${userData._id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -102,7 +102,7 @@ export default function Page({ params }: PropsParams) {
       return;
     }
 
-    const res = await fetch("https://friend-link-api.vercel.app//friend", {
+    const res = await fetch("https://friendlink-api.onrender.com/friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -122,7 +122,7 @@ export default function Page({ params }: PropsParams) {
     const found = addedFriend.find((item) => item.requestId);
     const requestId = found?.requestId;
     const res = await fetch(
-      `https://friend-link-api.vercel.app//friend/${requestId}`,
+      `https://friendlink-api.onrender.com/friend/${requestId}`,
       {
         method: "DELETE",
         headers: {

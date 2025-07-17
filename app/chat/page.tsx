@@ -7,7 +7,7 @@ async function page() {
   const token = cookeisStorage.get("token")?.value;
 
   const resFreinds = await fetch(
-    "https://friend-link-api.vercel.app//friend/myFriends",
+    "https://friendlink-api.onrender.com/friend/myFriends",
     {
       method: "GET",
       cache: "no-store",

@@ -44,7 +44,7 @@ export default function EditProfile({ onClose }: Props) {
 
     try {
       const res = await fetch(
-        `https://friend-link-api.vercel.app//user/update/${userId}`,
+        `https://friendlink-api.onrender.com/user/update/${userId}`,
         {
           method: "PATCH",
           body: formData,

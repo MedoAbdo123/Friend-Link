@@ -15,7 +15,7 @@ async function page() {
   }
 
   const res = await fetch(
-    `https://friend-link-api.vercel.app//post/${decode.username}`,
+    `https://friendlink-api.onrender.com/post/${decode.username}`,
     {
       method: "GET",
       headers: { Authorization: "Bearer " + token?.value },

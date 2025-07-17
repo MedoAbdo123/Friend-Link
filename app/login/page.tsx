@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
 
-    fetch("https://friend-link-api.vercel.app//user/login", {
+    fetch("https://friendlink-api.onrender.com/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
