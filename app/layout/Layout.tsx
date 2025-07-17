@@ -15,9 +15,9 @@ export default function Header() {
     avatar?: string;
     name?: string;
   } | null>(null);
-
+  const [token, setToken] = useState<any>();
   function Logut() {
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
     window.location.href = "/";
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   }
@@ -45,6 +45,14 @@ export default function Header() {
       } catch (error) {
         console.error("Error decoding token:", error);
       }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      setToken(token);
+      if (!token) return;
     }
   }, []);
 
@@ -78,7 +86,7 @@ export default function Header() {
                 <li>
                   <Link
                     className="transition flex items-center flex-col"
-                    href="/myProfile"
+                    href={token ? "/myProfile" : "/login"}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +108,7 @@ export default function Header() {
                 <li>
                   <Link
                     className="transition flex items-center flex-col"
-                    href="/chat"
+                    href={token ? "/chat" : "/login"}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +130,7 @@ export default function Header() {
                 <li>
                   <Link
                     className="transition flex items-center flex-col"
-                    href="/createPost"
+                    href={token ? "/createPost" : "/login"}
                   >
                     <FilePenLine />
                     Add Post
@@ -132,7 +140,7 @@ export default function Header() {
                 <li>
                   <Link
                     className="flex flex-col items-center transition"
-                    href="/requests"
+                    href={token ? "/requests" : "/login"}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +161,10 @@ export default function Header() {
                 </li>
 
                 <li>
-                  <Link className="flex flex-col items-center transition" href="/">
+                  <Link
+                    className="flex flex-col items-center transition"
+                    href="/"
+                  >
                     <House />
                     Home
                   </Link>
@@ -254,7 +265,7 @@ export default function Header() {
             <li>
               <Link
                 className="flex items-center gap-1 transition"
-                href="/myProfile"
+                href={token ? "/myprofile" : "/login"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +285,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link className="flex items-center gap-1 transition" href="/chat">
+              <Link className="flex items-center gap-1 transition" href={token ? "/chat" : "/login"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -293,7 +304,10 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link className=" flex items-center gap-1 transition" href="/createPost">
+              <Link
+                className=" flex items-center gap-1 transition"
+                href={token ? "/createPost" : "/login"}
+              >
                 <FilePenLine />
                 Add Post
               </Link>
@@ -302,7 +316,7 @@ export default function Header() {
             <li>
               <Link
                 className="flex items-center gap-1 transition"
-                href="/requests"
+                href={token ? "/requests" : "/login"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

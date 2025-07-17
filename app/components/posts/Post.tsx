@@ -160,7 +160,6 @@ function Post({
                   e.stopPropagation();
                   setContextMenuVisible(false);
                   router.push(`/post/${_id}`);
-                  console.log("Edit post:", _id);
                 }}
                 className="px-4 py-2 w-full text-left hover:bg-gray-700 flex items-center gap-2"
               >

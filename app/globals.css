@@ -36,7 +36,7 @@
   --app-comments-shadow: #fff;
   --border-color: oklab(20.992% -0.0039 -0.03394);
   --bg-button: rgb(8, 18, 104);
-  --bg-chat: rgba(255,255,255,0.1);
+  --bg-chat: oklch(27.8% 0.033 256.848)
 }
 
 @theme inline {

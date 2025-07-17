@@ -49,7 +49,6 @@ export default function Page({ params }: PropsParams) {
         } else {
           setData(data);
           setPosts([]);
-          console.log("No posts found or invalid data structure");
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -77,7 +76,6 @@ export default function Page({ params }: PropsParams) {
         );
         if (!res.ok) throw new Error("Failed to fetch status");
         const json = await res.json();
-        console.log(json);
         setaddedFriend([{ requestId: json.status._id }]);
         setStatus(json.status.status);
       } catch (err) {
@@ -127,7 +125,6 @@ export default function Page({ params }: PropsParams) {
       },
     });
     const data = await res.json();
-    console.log(data);
     setSendRequest(!sendRequest);
     setStatus("none");
   }

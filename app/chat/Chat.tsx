@@ -162,7 +162,6 @@ function Chat({ firendsData }: ChatProps) {
 
         if (res.ok) {
           const data = await res.json();
-          console.log("Edited message response:", data);
 
           setMessages((prev) =>
             prev.map((message) =>
@@ -208,14 +207,6 @@ function Chat({ firendsData }: ChatProps) {
 
   useEffect(() => {
     if (!socket) return;
-
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket!");
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Disconnected from WebSocket!");
-    });
 
     socket.on("messageEdited", (updatedMessage: MessageProps) => {
       setMessages((prev) =>
@@ -278,7 +269,6 @@ function Chat({ firendsData }: ChatProps) {
 
   function handleSelectPhoto(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    console.log(file);
     setPhoto(file);
 
     if (file) {
@@ -291,7 +281,7 @@ function Chat({ firendsData }: ChatProps) {
     <article className="w-full min-h-screen sm:py-2 sm:px-4 flex gap-4">
       {windowWidth < 1280 ? (
         <section
-          className={`message-app w-full h-screen bg-gray-800 sm:rounded-2xl border border-gray-600 ${
+          className={`message-app w-full h-screen bg-[var(--bg-chat)] sm:rounded-2xl border border-gray-600 ${
             showMessages ? " hidden" : "block"
           }`}
         >
@@ -303,7 +293,7 @@ function Chat({ firendsData }: ChatProps) {
                 placeholder="Search friends..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="border border-gray-500 p-2 pl-10 w-full rounded bg-[rgba(255,255,255,0.05)] text-white"
+                className="border border-gray-500 p-2 pl-10 w-full rounded bg-[rgba(255,255,255,0.05)]"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -349,7 +339,7 @@ function Chat({ firendsData }: ChatProps) {
         </section>
       ) : (
         <section
-          className={`message-app w-105 h-screen bg-gray-800 rounded-2xl border border-gray-600 `}
+          className={`message-app w-105 h-screen bg-[var(--bg-chat)] rounded-2xl border border-gray-600 `}
         >
           <h1 className="font-bold text-2xl px-7 py-5">Messages</h1>
           <label className="relative w-full flex justify-center">
@@ -403,15 +393,15 @@ function Chat({ firendsData }: ChatProps) {
       {showMessages ? (
         <section
           ref={ref}
-          className={`flex-grow flex flex-col h-screen message-app bg-gray-800 sm:rounded-2xl border border-gray-600 ${
+          className={`flex-grow flex flex-col h-screen message-app bg-[var(--bg-chat)] sm:rounded-2xl border border-gray-600 ${
             windowWidth < 1280 ? (showMessages ? "block" : "hidden") : "block"
           }`}
         >
           <div className="flex flex-col sticky top-[-2px] sm:top-0 z-10">
-            <header className="p-6 flex items-center gap-2 sticky top-[-2px] bg-gray-800 backdrop-blur z-10">
+            <header className="p-6 flex items-center gap-2 sticky top-[-2px] bg-[var(--bg-chat)] backdrop-blur z-10">
               <button
                 onClick={() => setShowMessages(false)}
-                className="transition-all duration-300 hover:bg-gray-700 p-2 rounded cursor-pointer"
+                className="transition-all duration-300 hover:bg-[var(--bg-chat)] p-2 rounded cursor-pointer"
               >
                 <IoMdArrowRoundBack size={20} />
               </button>
@@ -621,13 +611,13 @@ function Chat({ firendsData }: ChatProps) {
             )}
           </div>
           <section
-            className={`w-full p-4 flex justify-center sticky bottom-0 border-t-1 bg-gray-800 border-gray-600 ${
+            className={`w-full backdrop-blur p-4 flex justify-center sticky bottom-0 border-t-1 bg-[var(--bg-chat)] border-gray-600 ${
               photoPreview ? "h-39" : "h-19"
             }`}
           >
             <form
               onSubmit={sendMessage}
-              className="w-full flex flex-col justify-center"
+              className="w-full  h-full flex flex-col justify-center"
             >
               <div className="p-2">
                 {photoPreview && (
@@ -684,7 +674,7 @@ function Chat({ firendsData }: ChatProps) {
       ) : (
         <section
           className={`flex flex-grow flex-col h-screen message-app justify-center items-center
-             bg-gray-800 sm:rounded-2xl border border-gray-600 ${
+             bg-[var(--bg-chat)] sm:rounded-2xl border border-gray-600 ${
                windowWidth < 1280
                  ? showMessages
                    ? "block"

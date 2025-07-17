@@ -43,7 +43,6 @@ function Login() {
       })
       .then((data) => {
         setToastMessage(data.data.message);
-        console.log(data.data.message);
         setShowToast(true);
         setIsSuccess(true);
         localStorage.setItem("token", data.data.token);

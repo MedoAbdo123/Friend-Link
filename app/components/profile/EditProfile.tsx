@@ -48,7 +48,6 @@ export default function EditProfile({ onClose }: Props) {
         body: formData,
       });
       const data = await res.json();
-      console.log(data);
 
       document.cookie = `token=${data.data.token}; path=/; max-age=${
         7 * 24 * 60 * 60
