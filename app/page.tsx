@@ -3,7 +3,6 @@ import DarkMode from "./components/theme/DarkMode";
 import PostsLoading from "./components/loading/PostsLoading";
 import PostsWrapper from "./components/posts/PostsWrapper";
 import Header from "./layout/Layout";
-import AlertMessage from "./components/aletMessage/AlertMessage";
 export default async function Home() {
   const res = await fetch(
     "https://friendlink-api.onrender.com/post/allPosts?skip=0&limit=10",

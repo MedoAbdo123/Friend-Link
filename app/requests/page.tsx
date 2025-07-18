@@ -44,6 +44,8 @@ async function requestPage() {
     );
 
     const users = await resUsers.json();
+    console.log(users);
+
     const data = await res.json();
     const requestsPending = await RequestsPending.json();
 
@@ -52,7 +54,6 @@ async function requestPage() {
     );
   } catch (error) {
     console.error(error);
-    return <RequestsClient data={{ error: String(error) }} />;
   }
 }
 

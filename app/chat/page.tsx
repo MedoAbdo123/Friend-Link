@@ -2,7 +2,7 @@ import React from "react";
 import Chat from "./Chat";
 import { cookies } from "next/headers";
 
-async function page() {
+async function Page() {
   const cookeisStorage = await cookies();
   const token = cookeisStorage.get("token")?.value;
 
@@ -20,4 +20,4 @@ async function page() {
   return <Chat firendsData={firendsData} />;
 }
 
-export default page;
+export default Page;

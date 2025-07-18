@@ -5,14 +5,14 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 
 export default function EditProfile({ onClose }: Props) {
   const [preview, setPreview] = useState<string | null>(null);
-  const [name, setName] = useState<any | null>(null);
-  const [username, setUsername] = useState<any | null>(null);
-  const [avatar, setAvatar] = useState<any | null>(null);
-  const [userId, setUserId] = useState<any | null>(null);
-  const [newImage, setNewImage] = useState<any | null>(null);
+  const [name, setName] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [newImage, setNewImage] = useState<File | null>(null);
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    setNewImage(file);
+    setNewImage(file || null);
     if (file) {
       const url = URL.createObjectURL(file);
       setPreview(url);
@@ -36,8 +36,8 @@ export default function EditProfile({ onClose }: Props) {
 
   async function editProfile() {
     const formData = new FormData();
-    formData.append("name", name);
-    formData.append("username", username);
+    formData.append("name", name || '');
+    formData.append("username", username || '');
     if (newImage) {
       formData.append("avatar", newImage);
     }
@@ -89,7 +89,7 @@ export default function EditProfile({ onClose }: Props) {
           {preview ? (
             <img src={preview} className="size-24 object-cover  rounded-full" />
           ) : (
-            <img src={avatar} className="size-24 object-cover  rounded-full" />
+            <img src={avatar || "null"} className="size-24 object-cover  rounded-full" />
           )}
           <input type="file" hidden onChange={handleImageChange} />
         </label>

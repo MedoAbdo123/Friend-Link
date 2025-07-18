@@ -15,7 +15,7 @@ export default function Header() {
     avatar?: string;
     name?: string;
   } | null>(null);
-  const [token, setToken] = useState<any>();
+  const [token, setToken] = useState<string>();
   function Logut() {
     localStorage.removeItem("token");
     window.location.href = "/";
@@ -51,7 +51,7 @@ export default function Header() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
-      setToken(token);
+      setToken(token || '');
       if (!token) return;
     }
   }, []);

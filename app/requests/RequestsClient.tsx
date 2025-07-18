@@ -2,16 +2,17 @@
 import { UserMinus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-function RequestsClient({ data, users, pending }: any) {
+import { RequestsClientProps, RequestsProps, StatusPending, User } from "../exports/exports";
+function RequestsClient({ data, users, pending }: RequestsClientProps) {
   const [active, setActive] = useState<"requests" | "users" | "pending">(
-    "users"
+    "requests"
   );
-  const [requests, setRequsests] = useState<any[]>(data ?? []);
+  const [requests, setRequsests] = useState<RequestsProps[]>(data ?? []);
   const [token, setToken] = useState<string | null>(null);
   const [addedFriend, setaddedFriend] = useState<
     { userId: string; requestId: string }[]
   >([]);
-  const [statusPending, setStatusPending] = useState<any[]>(pending);
+  const [statusPending, setStatusPending] = useState<StatusPending[]>(pending);
   const [seacrh, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState(users ?? []);
 
@@ -55,7 +56,7 @@ function RequestsClient({ data, users, pending }: any) {
       const updated = [...prev, { userId: receiverId, requestId }];
       return updated;
     });
-    const targetUser = users.find((user: any) => user._id === receiverId);
+    const targetUser = users.find((user: User) => user._id === receiverId);
     const requestData = data.request;
 
     setStatusPending((prev) => [
@@ -115,7 +116,7 @@ function RequestsClient({ data, users, pending }: any) {
     setSearch(searchUser);
 
     const filtered = users.filter(
-      (user: any) =>
+      (user: User) =>
         user.name.toLowerCase().includes(searchUser.toLowerCase()) ||
         user.username.toLowerCase().includes(searchUser.toLowerCase())
     );
@@ -195,7 +196,7 @@ function RequestsClient({ data, users, pending }: any) {
 
             <main className="mt-6 flex flex-col space-y-5">
               {Array.isArray(requests) && requests.length > 0
-                ? requests.map((request: any) => (
+                ? requests.map((request) => (
                     <div
                       key={request._id}
                       className="border-[1px] border-[var(--border-color)] space-x-3 p-3 rounded flex items-center w-full flex-wrap"
@@ -302,7 +303,7 @@ function RequestsClient({ data, users, pending }: any) {
 
             <main className="mt-6 flex flex-col space-y-5">
               {filteredUsers.length > 0 ? (
-                filteredUsers.map((user: any) => {
+                filteredUsers.map((user: User) => {
                   const isRequested = addedFriend.some(
                     (item) => item.userId.toString() === user._id.toString()
                   );
@@ -388,7 +389,7 @@ function RequestsClient({ data, users, pending }: any) {
 
             <main className="mt-6 flex flex-col space-y-5">
               {statusPending.length > 0 ? (
-                statusPending.map((user: any, index) => {
+                statusPending.map((user, index) => {
                   return (
                     <div
                       key={user._id || index}

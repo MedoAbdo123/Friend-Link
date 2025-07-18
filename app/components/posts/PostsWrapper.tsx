@@ -66,7 +66,7 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
 
   return (
     <>
-      {posts.map((post: any) => (
+      {posts.map((post) => (
         <Post
           key={post._id}
           _id={post._id}
@@ -76,11 +76,9 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
           timeAgo={post.timeAgo}
           user={post.user}
           userPhoto={post.user.avatar}
-          name={post.user.name}
           likes={post.likes}
-          commentNumber={post.commentsNumber}
+          commentsNumber={post.commentsNumber}
           likedUsers={post.likedUsers}
-          username={post.user.username}
         />
       ))}
 

@@ -3,7 +3,7 @@ import { PropsParams } from "@/app/exports/exports";
 import { useRouter } from "next/navigation";
 import React, { use, useEffect, useState } from "react";
 
-function page({ params }: PropsParams) {
+function Page({ params }: PropsParams) {
   const router = useRouter();
   const { postId } = use(params);
   const [title, setTitle] = useState("");
@@ -90,4 +90,4 @@ function page({ params }: PropsParams) {
   );
 }
 
-export default page;
+export default Page;

@@ -12,6 +12,7 @@
     "@emoji-mart/data": "^1.2.1",
     "@emoji-mart/react": "^1.1.1",
     "@heroicons/react": "^2.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
     "emoji-mart": "^5.2",
     "emoji-picker-react": "^4.12.3",
     "framer-motion": "^12.19.1",

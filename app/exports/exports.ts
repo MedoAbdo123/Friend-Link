@@ -1,4 +1,4 @@
-interface Friend {
+export interface Friend {
   data: {
     name: string;
     avatar: string;
@@ -29,15 +29,21 @@ export interface PostProps {
   title: string;
   content: string;
   image: string;
-  user: { _id: string };
+  user: {
+    _id: string;
+    username: string;
+    name: string;
+    avatar: string;
+  };
+  avatar?: string;
+  username?: string;
+  name?: string;
   likes: number;
-  commentNumber: number;
-  name: string;
+  commentsNumber: number;
   userPhoto: string;
   timeAgo: string;
   _id: string;
   likedUsers: string[];
-  username: string;
 }
 
 export interface PostsWrapperProps {
@@ -90,4 +96,70 @@ export interface MessageProps {
 
 export interface MessagePaload {
   message: string;
+}
+
+export interface PropsComment {
+  content: string;
+  edited: string;
+  user: {
+    name: string;
+    avatar: string;
+    _id: string;
+  };
+  _id: string;
+}
+
+export interface CommentType {
+  _id: string;
+  edited: string;
+  content: string;
+  user: {
+    name: string;
+    avatar: string;
+    _id: string;
+  };
+}
+
+export interface FriendRequest {
+  _id: string;
+  senderId: {
+    _id: string;
+    name: string;
+    username: string;
+    avatar: string;
+  };
+}
+
+export interface User {
+  _id: string;
+  name: string;
+  username: string;
+  avatar: string;
+}
+
+export interface StatusPending {
+  _id: string;
+  receiverId: {
+    _id: string;
+    name: string;
+    username: string;
+    avatar: string;
+  };
+  userId: string
+}
+
+export interface RequestsProps {
+  _id: string
+  senderId: {
+    _id: string;
+    name: string;
+    username: string;
+    avatar: string;
+  };
+}
+
+export interface RequestsClientProps {
+  data: FriendRequest[];
+  users: User[];
+  pending: StatusPending[];
 }

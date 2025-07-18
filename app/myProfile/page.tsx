@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import React from "react";
 import MyProfile from "./MyProfile";
 
-async function page() {
+async function Page() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token");
   const decode = token?.value
@@ -25,4 +25,4 @@ async function page() {
   return <MyProfile data={data} />;
 }
 
-export default page;
+export default Page;

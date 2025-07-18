@@ -1,14 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState } from "react";
-
-type CommentType = {
-  _id: string;
-  content: string;
-  user: {
-    name: string;
-    avatar: string;
-  };
-};
+import { CommentType } from "../exports/exports";
 
 type CommentsCache = {
   [postId: string]: CommentType[];

@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Friends from "../components/friends/Friends";
-import { ChatProps, MessageProps, MyPayload } from "../exports/exports";
+import { ChatProps, Friend, MessageProps, MyPayload } from "../exports/exports";
 import EmojiPicker from "emoji-picker-react";
 import { jwtDecode } from "jwt-decode";
 import { WebsocketContext } from "../contexts/WebsocketContext";
@@ -19,13 +19,13 @@ import AlertMessage from "../components/aletMessage/AlertMessage";
 function Chat({ firendsData }: ChatProps) {
   const [windowWidth, setWindowWidth] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
-  const [photo, setPhoto] = useState<any | null>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
   const [showMessages, setShowMessages] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [messageId, setMessageId] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [decoded, setDecoded] = useState<MyPayload | null>(null);
-  const [selectedFriend, setSelectedFriend] = useState<any>(null);
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
   const [typeMessage, setTypeMessage] = useState("");
   const [roomId, setRoomId] = useState("");
   const [messages, setMessages] = useState<MessageProps[]>([]);
@@ -103,9 +103,7 @@ function Chat({ firendsData }: ChatProps) {
     setSearchQuery(e.target.value);
   };
 
-  const clearSearch = () => {
-    setSearchQuery("");
-  };
+
 
   function handleShowMessages() {
     setShowMessages(!showMessages);
@@ -128,7 +126,7 @@ function Chat({ firendsData }: ChatProps) {
     return () => window.removeEventListener("click", handleClick);
   }, []);
 
-  async function getMessages(roomId: string, friend: any) {
+  async function getMessages(roomId: string, friend: Friend) {
     handleShowMessages();
     setSelectedFriend(friend);
     const res = await fetch(
@@ -278,7 +276,7 @@ function Chat({ firendsData }: ChatProps) {
 
   function handleSelectPhoto(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    setPhoto(file);
+    setPhoto(file || null);
 
     if (file) {
       const url = URL.createObjectURL(file);

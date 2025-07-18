@@ -1,29 +1,39 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Post from "../components/posts/Post";
 import PostsLoading from "../components/loading/PostsLoading";
 import EditProfile from "../components/profile/EditProfile";
+import { PostProps } from "../exports/exports";
+interface dataProps {
+  data: PostProps[];
+}
+function MyProfile({ data }: dataProps) {
+  const [myData, setMyData] = useState<PostProps | null>(null);
 
-function MyProfile({ data }: any) {
-  const [myData, setMyData] = useState<{
-    user: { avatar: string; name: string; username: string };
-    avatar: string;
-  }>(data[0]);
+  console.log("the data is:", data);
   const [showEditProfile, setShowEditProfile] = useState(false);
-  const user = data;
-  const posts: any[] = data;
+  // const user = data;
+  // console.log(user);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setMyData(data[0]);
+    } else if (data && typeof data === "object") {
+      setMyData(data as unknown as PostProps);
+    }
+  }, [data]);
+
+  const posts: PostProps[] = data;
   const postsJSX =
     posts.length >= 1 ? (
       posts.map((post) => (
         <Post
           key={post._id}
-          name={post.user.name}
-          username={post.user.username}
           userPhoto={post.user.avatar}
           image={post.image}
           _id={post._id}
           user={post.user}
-          commentNumber={post.commentsNumber}
+          commentsNumber={post.commentsNumber}
           likedUsers={post.likedUsers}
           likes={post.likes}
           content={post.content}
@@ -40,15 +50,17 @@ function MyProfile({ data }: any) {
     <article className="w-full min-h-screen">
       <section className="flex flex-col items-center mt-4">
         <img
-          src={myData?.user.avatar || user?.avatar}
-          alt={myData?.user.name || user?.name}
+          src={myData?.user?.avatar || myData?.avatar}
+          alt={myData?.user?.name || myData?.name}
           className="size-30 rounded-full object-cover"
         />
-        <br />
-        <p className="text-3xl font-black">{myData?.user.name || user?.name}</p>
-        <p className="font-black text-gray-700">
-          {myData?.user.username || user?.username}
+        <p className="text-3xl font-black">
+          {myData?.user?.name || myData?.name}
         </p>
+        <p className="font-black text-gray-700">
+          {myData?.user?.username || myData?.username}
+        </p>
+
         <div className="flex gap-3 mt-4 items-center">{posts.length} posts</div>
         <button
           onClick={() => setShowEditProfile(true)}

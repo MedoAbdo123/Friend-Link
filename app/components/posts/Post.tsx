@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 import Comments from "../comment/Comments";
-import { PostProps } from "@/app/exports/exports";
+import { MyPayload, PostProps } from "@/app/exports/exports";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import AlertMessage from "../aletMessage/AlertMessage";
@@ -12,19 +12,17 @@ function Post({
   content,
   image,
   timeAgo,
-  name,
   userPhoto,
   likes,
-  commentNumber,
+  commentsNumber,
   likedUsers,
   _id,
-  username,
   user,
 }: PostProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showReadMore, setShowReadMore] = useState(false);
   const [showComment, setShowComment] = useState(false);
-  const [localCommentNumber, setLocalCommentNumber] = useState(commentNumber);
+  const [localCommentNumber, setLocalCommentNumber] = useState(commentsNumber);
   const [like, setLike] = useState({ likes });
   const [isLiked, setIsLiked] = useState(false);
   const textRef = useRef<HTMLParagraphElement | null>(null);
@@ -36,13 +34,12 @@ function Post({
   });
 
   const [userId, setUserId] = useState<string | null>(null);
-  const [postId, setPostId] = useState<string | null>(null);
   const [showAlert, setShowAlert] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      const decoded: any = jwtDecode(token);
+      const decoded: MyPayload = jwtDecode(token);
       setUserId(decoded?.id);
     }
 
@@ -152,6 +149,8 @@ function Post({
               className="absolute bg-gray-800 text-white rounded shadow-md z-50"
               style={{
                 position: "absolute",
+                left: contextMenuPosition.x,
+                top: contextMenuPosition.y,
               }}
               onClick={() => setContextMenuVisible(false)}
             >
@@ -211,11 +210,17 @@ function Post({
             alt="user profile"
             className="size-10 rounded-full object-cover"
           />
-          <Link href={`/profile/${username}`} className="font-bold text-nowrap">
-            {name}
+          <Link
+            href={`/profile/${user.username}`}
+            className="font-bold text-nowrap"
+          >
+            {user.name}
           </Link>
-          <Link href={`/profile/${username}`} className="text-xs text-gray-600">
-            {username}
+          <Link
+            href={`/profile/${user.username}`}
+            className="text-xs text-gray-600"
+          >
+            {user.username}
           </Link>
         </header>
       </div>

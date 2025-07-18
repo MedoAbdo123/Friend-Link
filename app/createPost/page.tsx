@@ -2,14 +2,14 @@
 import { Image, Upload } from "lucide-react";
 import React, { ChangeEvent, useState } from "react";
 
-function page() {
+function Page() {
   const [preview, setPreview] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState<any | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    setImage(file);
+    setImage(file || null);
     if (file) {
       const url = URL.createObjectURL(file);
       setPreview(url);
@@ -20,7 +20,7 @@ function page() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("image", image);
+    formData.append("image", image || '');
     try {
       const token = localStorage.getItem("token");
       await fetch("https://friendlink-api.onrender.com/post/create", {
@@ -108,4 +108,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

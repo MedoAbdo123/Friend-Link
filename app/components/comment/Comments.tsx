@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { SendHorizontal } from "lucide-react";
 import { useCommentsCache } from "@/app/contexts/CommentsContext";
 import { jwtDecode } from "jwt-decode";
-import { Props } from "@/app/exports/exports";
+import { CommentType, MyPayload, Props, PropsComment } from "@/app/exports/exports";
 import AlertMessage from "../aletMessage/AlertMessage";
 
 export default function Comments({ onClose, postId, onCommentChange }: Props) {
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<PropsComment[]>([]);
   const { commentsCache, setCommentsCache } = useCommentsCache();
   const [content, setContent] = useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -22,7 +22,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      const decode: any = jwtDecode(token);
+      const decode: MyPayload = jwtDecode(token);
       setDecode(decode);
     }
   }, []);
@@ -54,6 +54,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       .then((res) => res.json())
       .then((data) => {
         const fetchedComments = data.data?.comments || [];
+        console.log(fetchedComments)
         setComments(fetchedComments);
         setCommentsCache((prev) => ({
           ...prev,
@@ -164,7 +165,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
     }
   }
 
-  function startEditing(comment: any) {
+  function startEditing(comment: CommentType) {
     setEditingCommentId(comment._id);
     setContent(comment.content);
     setSelectedCommentId(null);
