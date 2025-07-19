@@ -132,9 +132,9 @@ function Login() {
                 </button>
 
                 <p className="pb-4 text-sm">
-                  Already have an account?
+                  Don’t have an account?
                   <Link href={"/register"} className="text-sky-700 pl-1">
-                    Register in here
+                    Don’t have an account?
                   </Link>
                 </p>
               </div>
