@@ -22,7 +22,7 @@ function Page({ params }: PropsParams) {
       setContent(data.data.post.content);
     }
     getTitleAndContent();
-  }, []);
+  }, [postId]);
 
   async function handleEditPost() {
     const formData = new FormData();
