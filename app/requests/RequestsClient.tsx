@@ -125,7 +125,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
   }
 
   return (
-    <article className="flex items-center mt-5 flex-col w-full h-auto">
+    <article className="flex items-center mt-5 flex-col w-full h-screen">
       <section className="w-[95%] sm:w-145 bg-gray-300 p-2 rounded grid grid-cols-3 gap-2 mt-5">
         <button
           onClick={() => setActive("requests")}
