@@ -10,7 +10,6 @@ interface dataProps {
 function MyProfile({ data }: dataProps) {
   const [myData, setMyData] = useState<PostProps | null>(null);
 
-  console.log("the data is:", data);
   const [showEditProfile, setShowEditProfile] = useState(false);
   // const user = data;
   // console.log(user);

@@ -44,7 +44,6 @@ async function requestPage() {
     );
 
     const users = await resUsers.json();
-    console.log(users);
 
     const data = await res.json();
     const requestsPending = await RequestsPending.json();

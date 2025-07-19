@@ -9,10 +9,10 @@ export default function EditProfile({ onClose }: Props) {
   const [username, setUsername] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  const [newImage, setNewImage] = useState<File | null>(null);
+  const [newImage, setNewImage] = useState<File>();
   function handleImageChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    setNewImage(file || null);
+    setNewImage(file);
     if (file) {
       const url = URL.createObjectURL(file);
       setPreview(url);
@@ -36,25 +36,23 @@ export default function EditProfile({ onClose }: Props) {
 
   async function editProfile() {
     const formData = new FormData();
-    formData.append("name", name || '');
-    formData.append("username", username || '');
+    formData.append("name", name || "");
+    formData.append("username", username || "");
     if (newImage) {
       formData.append("avatar", newImage);
     }
 
     try {
-      const res = await fetch(
-        `https://friendlink-api.onrender.com/user/update/${userId}`,
-        {
-          method: "PATCH",
-          body: formData,
-        }
-      );
+      const res = await fetch(`https://friendlink-api.onrender.com/user/update/${userId}`, {
+        method: "PATCH",
+        body: formData,
+      });
       const data = await res.json();
 
       document.cookie = `token=${data.data.token}; path=/; max-age=${
         7 * 24 * 60 * 60
       };`;
+
       window.location.pathname = "/myProfile";
     } catch (error) {
       console.log(error);
@@ -89,7 +87,10 @@ export default function EditProfile({ onClose }: Props) {
           {preview ? (
             <img src={preview} className="size-24 object-cover  rounded-full" />
           ) : (
-            <img src={avatar || "null"} className="size-24 object-cover  rounded-full" />
+            <img
+              src={avatar || "null"}
+              className="size-24 object-cover  rounded-full"
+            />
           )}
           <input type="file" hidden onChange={handleImageChange} />
         </label>

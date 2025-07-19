@@ -54,7 +54,6 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       .then((res) => res.json())
       .then((data) => {
         const fetchedComments = data.data?.comments || [];
-        console.log(fetchedComments)
         setComments(fetchedComments);
         setCommentsCache((prev) => ({
           ...prev,

@@ -79,8 +79,7 @@ export default function Page({ params }: PropsParams) {
         );
         if (!res.ok) throw new Error("Failed to fetch status");
         const json = await res.json();
-        console.log(json);
-
+        
         setaddedFriend([{ requestId: json.status._id }]);
         setStatus(json.status.status);
       } catch (err) {

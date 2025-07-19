@@ -20,7 +20,7 @@ function Page() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("image", image || '');
+    formData.append("image", image || "");
     try {
       const token = localStorage.getItem("token");
       await fetch("https://friendlink-api.onrender.com/post/create", {
