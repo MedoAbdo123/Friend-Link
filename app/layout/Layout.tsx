@@ -265,7 +265,7 @@ export default function Header() {
             <li>
               <Link
                 className="flex items-center gap-1 transition"
-                href={token ? "/myprofile" : "/login"}
+                href={token ? "/myProfile" : "/login"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

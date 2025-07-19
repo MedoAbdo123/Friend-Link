@@ -28,6 +28,7 @@ function Post({
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const router = useRouter();
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [decoded, setDecoded] = useState<MyPayload | null>(null);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
@@ -40,6 +41,7 @@ function Post({
 
     if (token) {
       const decoded: MyPayload = jwtDecode(token);
+      setDecoded(decoded);
       setUserId(decoded?.id);
     }
 
@@ -211,13 +213,21 @@ function Post({
             className="size-10 rounded-full object-cover"
           />
           <Link
-            href={`/profile/${user.username}`}
+            href={
+              decoded?.username == user.username
+                ? "/myProfile"
+                : `/profile/${user.username}`
+            }
             className="font-bold text-nowrap"
           >
             {user.name}
           </Link>
           <Link
-            href={`/profile/${user.username}`}
+            href={
+              decoded?.username == user.username
+                ? "/myProfile"
+                : `/profile/${user.username}`
+            }
             className="text-xs text-gray-600"
           >
             {user.username}
