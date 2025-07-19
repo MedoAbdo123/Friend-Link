@@ -13,9 +13,6 @@ async function Page() {
     console.error("Invalid token or username not found");
     return <div>Error: Invalid token or username not found.</div>;
   }
-  const username = decode.username?.startsWith("@")
-    ? decode.username
-    : "@" + decode.username;
 
   const res = await fetch(
     `https://friendlink-api.onrender.com/post/${decode?.username}`,
@@ -27,12 +24,10 @@ async function Page() {
 
   let data = null;
   const text = await res.text();
-  console.log(text);
   if (res.ok) {
     if (text) {
       try {
         data = JSON.parse(text);
-        console.log("Parsed JSON data:", data);
       } catch (e) {
         console.log("Failed to parse JSON:", e);
         data = { error: "Invalid JSON response from server" };
