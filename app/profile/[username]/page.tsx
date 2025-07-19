@@ -131,8 +131,6 @@ export default function Page({ params }: PropsParams) {
         },
       }
     );
-    const data = await res.json();
-
     setSendRequest(!sendRequest);
     setStatus("none");
   }
