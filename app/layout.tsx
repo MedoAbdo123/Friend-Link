@@ -5,7 +5,7 @@ import "./globals.css";
 import { CommentsProvider } from "./contexts/CommentsContext";
 import { WebsocketProvider } from "./contexts/WebsocketContext";
 import Head from "next/head";
-
+import Layout from "./layout/Layout";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -54,6 +54,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class">
           <CommentsProvider>
+            <Layout/>
             <WebsocketProvider>{children}</WebsocketProvider>
           </CommentsProvider>
         </ThemeProvider>

@@ -57,7 +57,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-[var(--background-header)] text-[var(--foreground)] shadow-[#001] shadow-xl relative">
+    <header className="bg-[var(--background-header)] mb-4 text-[var(--foreground)] shadow-[#001] shadow-xl relative">
       <style jsx>{`
         .mobile-menu {
           transform: translateX(100%);
