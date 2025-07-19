@@ -122,15 +122,12 @@ export default function Page({ params }: PropsParams) {
   async function DeclineRequest() {
     const found = addedFriend.find((item) => item.requestId);
     const requestId = found?.requestId;
-    const res = await fetch(
-      `https://friendlink-api.onrender.com/friend/${requestId}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setSendRequest(!sendRequest);
     setStatus("none");
   }
