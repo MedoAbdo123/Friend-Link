@@ -3,19 +3,19 @@ import DarkMode from "./components/theme/DarkMode";
 import PostsWrapper from "./components/posts/PostsWrapper";
 import Header from "./layout/Layout";
 export const metadata = {
-  title: "Friend Link - تواصل مع أصدقائك",
+  title: "Friend Link ",
   description:
-    "موقع Friend Link هو شبكة اجتماعية تساعدك على التواصل ومشاركة اللحظات مع أصدقائك.",
-  keywords: ["Friend Link", "موقع اجتماعي", "تواصل", "مشاركة", "شبكة اجتماعية"],
+    "Friend Link is a social network that helps you connect and share with your friends.",
+  keywords: ["Friend Link", "موقع اجتماعي", "تواصل", "مشاركة", "شبكة اجتماعية", "friend link", "friendlink", "friend-link"],
   authors: [{ name: "Ahmad", url: "https://friend-link.netlify.app/" }],
   openGraph: {
-    title: "Friend Link - شبكة اجتماعية جديدة",
-    description: "انضم إلى Friend Link وابدأ في التواصل مع أصدقائك الآن.",
+    title: "Friend Link - New social network",
+    description: "Join Friend Link and start connecting with your friends now.",
     url: "https://friend-link.netlify.app/",
     siteName: "Friend Link",
     images: [
       {
-        url: "public/favicon.ico",
+        url: "https://friend-link.netlify.app/favicon.ico",
         width: 800,
         height: 600,
       },
