@@ -1,8 +1,30 @@
-import React, { Suspense } from "react";
+import React from "react";
 import DarkMode from "./components/theme/DarkMode";
-import PostsLoading from "./components/loading/PostsLoading";
 import PostsWrapper from "./components/posts/PostsWrapper";
 import Header from "./layout/Layout";
+export const metadata = {
+  title: "Friend Link - تواصل مع أصدقائك",
+  description:
+    "موقع Friend Link هو شبكة اجتماعية تساعدك على التواصل ومشاركة اللحظات مع أصدقائك.",
+  keywords: ["Friend Link", "موقع اجتماعي", "تواصل", "مشاركة", "شبكة اجتماعية"],
+  authors: [{ name: "Ahmad", url: "https://friend-link.netlify.app/" }],
+  openGraph: {
+    title: "Friend Link - شبكة اجتماعية جديدة",
+    description: "انضم إلى Friend Link وابدأ في التواصل مع أصدقائك الآن.",
+    url: "https://friend-link.netlify.app/",
+    siteName: "Friend Link",
+    images: [
+      {
+        url: "public/favicon.ico",
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: "ar",
+    type: "website",
+  },
+};
+
 export default async function Home() {
   const res = await fetch(
     "https://friendlink-api.onrender.com/post/allPosts?skip=0&limit=10",

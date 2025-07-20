@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, Suspense } from "react";
+import { useState, useRef, useEffect } from "react";
 import Post from "./Post";
 import { PostProps } from "@/app/exports/exports";
 import PostsLoading from "../loading/PostsLoading";
