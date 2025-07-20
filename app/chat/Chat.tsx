@@ -15,7 +15,7 @@ import { jwtDecode } from "jwt-decode";
 import { WebsocketContext } from "../contexts/WebsocketContext";
 import twemoji from "twemoji";
 import AlertMessage from "../components/aletMessage/AlertMessage";
-
+import NextImage from "next/image";
 function Chat({ firendsData }: ChatProps) {
   const [windowWidth, setWindowWidth] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
@@ -102,8 +102,6 @@ function Chat({ firendsData }: ChatProps) {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
-
-
 
   function handleShowMessages() {
     setShowMessages(!showMessages);
@@ -413,7 +411,9 @@ function Chat({ firendsData }: ChatProps) {
                 <IoMdArrowRoundBack size={20} />
               </button>
               {selectedFriend && (
-                <img
+                <NextImage
+                  width={40}
+                  height={40}
                   src={selectedFriend.data.avatar}
                   className="size-10 object-cover rounded-full"
                   alt={selectedFriend.data.name}
@@ -464,7 +464,9 @@ function Chat({ firendsData }: ChatProps) {
                                 className="block border border-gray-600 rounded-md overflow-hidden bg-[#001] text-white mt-2"
                               >
                                 {message.linkPreview.image && (
-                                  <img
+                                  <NextImage
+                                    width={300}
+                                    height={180}
                                     src={message.linkPreview.image}
                                     alt="preview"
                                     className="w-full h-auto object-cover"
@@ -487,7 +489,9 @@ function Chat({ firendsData }: ChatProps) {
                         )}
                         {message.photo && (
                           <div>
-                            <img
+                            <NextImage
+                              width={40}
+                              height={40}
                               src={message.photo}
                               className="max-w-64 h-auto rounded-lg object-cover"
                               alt="shared image"
@@ -508,7 +512,10 @@ function Chat({ firendsData }: ChatProps) {
                   ) : (
                     <section className="px-4">
                       <div className="flex gap-2">
-                        <img
+                        <NextImage
+                          width={40}
+                          height={40}
+                          alt="user profile"
                           src={message.senderId.avatar}
                           className="size-10 object-cover rounded-full self-end"
                         />
@@ -533,7 +540,9 @@ function Chat({ firendsData }: ChatProps) {
                       <div className="pl-11 mt-2">
                         {message.photo && (
                           <div>
-                            <img
+                            <NextImage
+                              width={40}
+                              height={40}
                               src={message.photo}
                               className="max-w-64 h-auto rounded-lg object-cover"
                               alt="shared image"
@@ -628,7 +637,13 @@ function Chat({ firendsData }: ChatProps) {
             >
               <div className="p-2">
                 {photoPreview && (
-                  <img src={photoPreview} className="size-16 rounded-lg" />
+                  <NextImage
+                    width={40}
+                    alt="photo preview"
+                    height={40}
+                    src={photoPreview}
+                    className="size-16 rounded-lg"
+                  />
                 )}
               </div>
               <div className="w-full h-full flex">

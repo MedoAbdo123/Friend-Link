@@ -5,9 +5,10 @@ import Post from "@/app/components/posts/Post";
 import UserProfileLoading from "@/app/components/loading/UserProfileLoading";
 import PostsLoading from "@/app/components/loading/PostsLoading";
 import { PostProps, PropsParams } from "@/app/exports/exports";
+import NextImage from "next/image";
+
 export default function Page({ params }: PropsParams) {
   const { username } = use(params);
-
   const [sendRequest, setSendRequest] = useState(false);
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [token, setToken] = useState<string | null>(null);
@@ -160,9 +161,11 @@ export default function Page({ params }: PropsParams) {
   return (
     <article className="w-full min-h-screen">
       <section className="flex flex-col items-center mt-4">
-        <img
-          src={userData.avatar || data.avatar}
-          alt={userData.name || data.name}
+        <NextImage
+        width={120}
+        height={120}
+          src={userData.avatar || data.avatar || "/default-avatar.png"}
+          alt={userData.name || data.name || "User Avatar"}
           className="size-30 rounded-full"
         />
         <br />

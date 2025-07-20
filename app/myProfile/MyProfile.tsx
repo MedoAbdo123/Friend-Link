@@ -4,6 +4,7 @@ import Post from "../components/posts/Post";
 import PostsLoading from "../components/loading/PostsLoading";
 import EditProfile from "../components/profile/EditProfile";
 import { PostProps } from "../exports/exports";
+import NextImage from "next/image";
 interface dataProps {
   data: PostProps[];
 }
@@ -48,9 +49,11 @@ function MyProfile({ data }: dataProps) {
   return (
     <article className="w-full min-h-screen">
       <section className="flex flex-col items-center mt-4">
-        <img
-          src={myData?.user?.avatar || myData?.avatar}
-          alt={myData?.user?.name || myData?.name}
+        <NextImage
+          width={120}
+          height={120}
+          src={myData?.user?.avatar || myData?.avatar || "/default-avatar.png"}
+          alt={myData?.user?.name || myData?.name || "User Avatar"}
           className="size-30 rounded-full object-cover"
         />
         <p className="text-3xl font-black">

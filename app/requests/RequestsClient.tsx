@@ -3,6 +3,7 @@ import { UserMinus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { RequestsClientProps, RequestsProps, StatusPending, User } from "../exports/exports";
+import NextImage from "next/image";
 function RequestsClient({ data, users, pending }: RequestsClientProps) {
   const [active, setActive] = useState<"requests" | "users" | "pending">(
     "requests"
@@ -201,7 +202,9 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
                       key={request._id}
                       className="border-[1px] border-[var(--border-color)] space-x-3 p-3 rounded flex items-center w-full flex-wrap"
                     >
-                      <img
+                      <NextImage
+                        width={40}
+                        height={40}
                         src={request.senderId.avatar}
                         alt={request.senderId.name}
                         className="size-10 rounded-full"
@@ -313,7 +316,9 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
                       key={user._id}
                       className="border-[1px] border-[var(--border-color)] transition-all duration-300 shadow space-x-3 p-3 rounded flex items-center w-full flex-wrap"
                     >
-                      <img
+                      <NextImage
+                        width={40}
+                        height={40}
                         src={user.avatar}
                         alt={user.name}
                         className="size-10 rounded-full"
@@ -395,7 +400,9 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
                       key={user._id || index}
                       className="border-[1px] border-[var(--border-color)] transition-all duration-300 shadow space-x-3 p-3 rounded flex items-center w-full flex-wrap"
                     >
-                      <img
+                      <NextImage
+                        width={40}
+                        height={40}
                         src={user.receiverId.avatar}
                         alt={user.receiverId.name}
                         className="size-10 rounded-full"

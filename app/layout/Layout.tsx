@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { FilePenLine, House } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
+import NextImae from "next/image";
 type MyPayload = {
   name: string;
   avatar: string;
@@ -51,7 +51,7 @@ export default function Header() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
-      setToken(token || '');
+      setToken(token || "");
       if (!token) return;
     }
   }, []);
@@ -177,9 +177,12 @@ export default function Header() {
             {userData ? (
               <div className="sm:flex sm:gap-4 flex items-center gap-1">
                 <h1 className="text-xs sm:text-lg">{userData.name}</h1>
-                <img
+                <NextImae
+                  alt="User Avatar"
+                  width={36}
+                  height={36}
                   onClick={() => alert()}
-                  src={userData.avatar}
+                  src={userData.avatar || ""}
                   className="size-9 rounded-full object-cover"
                 />
                 <div className="hidden sm:flex">
@@ -285,7 +288,10 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link className="flex items-center gap-1 transition" href={token ? "/chat" : "/login"}>
+              <Link
+                className="flex items-center gap-1 transition"
+                href={token ? "/chat" : "/login"}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

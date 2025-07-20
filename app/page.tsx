@@ -7,7 +7,7 @@ export default async function Home() {
   const res = await fetch(
     "https://friendlink-api.onrender.com/post/allPosts?skip=0&limit=10",
     {
-      cache: "no-store",
+      next: { revalidate: 60 },
     }
   );
   const data = await res.json();
@@ -17,17 +17,7 @@ export default async function Home() {
         <Header />
       </div>
       <div className="flex items-center flex-col overflow-hidden space-y-25 justify-center mt-20 p-3 sm:p-0 sm:py-5">
-        <Suspense
-          fallback={
-            <>
-              <PostsLoading />
-              <PostsLoading />
-              <PostsLoading />
-            </>
-          }
-        >
-          <PostsWrapper initialPosts={data.data} />
-        </Suspense>
+        <PostsWrapper initialPosts={data.data} />
       </div>
 
       <div className="w-full flex justify-end py-5 px-4">

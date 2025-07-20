@@ -5,7 +5,7 @@ import { useCommentsCache } from "@/app/contexts/CommentsContext";
 import { jwtDecode } from "jwt-decode";
 import { CommentType, MyPayload, Props, PropsComment } from "@/app/exports/exports";
 import AlertMessage from "../aletMessage/AlertMessage";
-
+import NextImage from "next/image";
 export default function Comments({ onClose, postId, onCommentChange }: Props) {
   const [comments, setComments] = useState<PropsComment[]>([]);
   const { commentsCache, setCommentsCache } = useCommentsCache();
@@ -236,7 +236,9 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
               >
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-3">
-                    <img
+                    <NextImage
+                      width={40}
+                      height={40}
                       src={comment.user.avatar}
                       alt={comment.user.name}
                       className="size-10 object-cover rounded-full border shadow"

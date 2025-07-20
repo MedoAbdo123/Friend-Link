@@ -1,7 +1,7 @@
 "use client";
 import { Image, Upload } from "lucide-react";
 import React, { ChangeEvent, useState } from "react";
-
+import NextImage from "next/image";
 function Page() {
   const [preview, setPreview] = useState<string | null>(null);
   const [title, setTitle] = useState("");
@@ -78,7 +78,10 @@ function Page() {
               />
               {preview ? (
                 <div className="w-[99%] space-y-4 min-h-70 border-gray-400 p-3 rounded-2xl flex flex-col items-center justify-center">
-                  <img
+                  <NextImage
+                    width={600}
+                    height={400}
+                    alt="photo preview"
                     src={preview}
                     className="w-auto rounded-2xl object-cover h-100"
                   />

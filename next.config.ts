@@ -1,13 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'friendlink-api.onrender.com',
-        pathname: '/uploads/**',
-      },
-    ],
+    domains: ["res.cloudinary.com", "opengraph.githubassets.com", "friendlink-api.onrender.com"],
   },
 };
 

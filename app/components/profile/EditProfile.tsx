@@ -2,7 +2,7 @@
 import { MyPayload, Props } from "@/app/exports/exports";
 import { jwtDecode } from "jwt-decode";
 import React, { useState, ChangeEvent, useEffect } from "react";
-
+import NextImage from "next/image";
 export default function EditProfile({ onClose }: Props) {
   const [preview, setPreview] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
@@ -43,10 +43,13 @@ export default function EditProfile({ onClose }: Props) {
     }
 
     try {
-      const res = await fetch(`https://friendlink-api.onrender.com/user/update/${userId}`, {
-        method: "PATCH",
-        body: formData,
-      });
+      const res = await fetch(
+        `https://friendlink-api.onrender.com/user/update/${userId}`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
       const data = await res.json();
 
       document.cookie = `token=${data.data.token}; path=/; max-age=${
@@ -85,11 +88,20 @@ export default function EditProfile({ onClose }: Props) {
       <div className="flex justify-center gap-3">
         <label className="flex gap-2 items-center text-sm cursor-pointer">
           {preview ? (
-            <img src={preview} className="size-24 object-cover  rounded-full" />
-          ) : (
-            <img
-              src={avatar || "null"}
+            <NextImage
+              width={96}
+              alt="photo"
+              height={96}
+              src={preview}
               className="size-24 object-cover  rounded-full"
+            />
+          ) : (
+            <NextImage
+              width={96}
+              alt="photo"
+              height={96}
+              src={avatar && avatar !== "" ? avatar : "/default-avatar.png"}
+              className="size-24 object-cover rounded-full"
             />
           )}
           <input type="file" hidden onChange={handleImageChange} />

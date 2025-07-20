@@ -7,6 +7,7 @@ import { MyPayload, PostProps } from "@/app/exports/exports";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import AlertMessage from "../aletMessage/AlertMessage";
+import NextImage from "next/image";
 function Post({
   title,
   content,
@@ -207,9 +208,11 @@ function Post({
           <span className="text-sm">{timeAgo}</span>
         </div>
         <header className="flex items-center h-12 gap-2">
-          <img
+          <NextImage
             src={userPhoto}
             alt="user profile"
+            width={40}
+            height={40}
             className="size-10 rounded-full object-cover"
           />
           <Link
@@ -265,7 +268,15 @@ function Post({
         )}
       </section>
       <section className="p-4">
-        <img src={image} className="w-full h-auto object-cover rounded-2xl" />
+        {image && (
+          <NextImage
+            width={600}
+            height={400}
+            alt="post image"
+            src={image}
+            className="w-full h-auto object-cover rounded-2xl"
+          />
+        )}
       </section>
       <section className="w-21 flex">
         <div className="w-full py-2 flex px-5 items-center justify-start">

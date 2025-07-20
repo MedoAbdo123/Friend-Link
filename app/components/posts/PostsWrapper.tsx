@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import Post from "./Post";
 import { PostProps } from "@/app/exports/exports";
+import PostsLoading from "../loading/PostsLoading";
 
 interface PostsWrapperProps {
   initialPosts: PostProps[];
@@ -81,10 +82,8 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
           likedUsers={post.likedUsers}
         />
       ))}
-
       <div ref={observerRef} style={{ height: "1px" }} />
-
-      {loading && <p className="text-center p-4">Loading more posts…</p>}
+      {loading && <PostsLoading />}
     </>
   );
 }

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import Toast from "../components/toast/Toast";
 import { useRouter } from "next/navigation";
-
+import NextImage from "next/image";
 function Register() {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -99,7 +99,7 @@ function Register() {
             </header>
             <section className="p-6 flex items-center gap-4">
               {avatarPreview ? (
-                <img src={avatarPreview} className="size-15 rounded-full" />
+                <NextImage alt="Avatar Preview" width={120} height={120} src={avatarPreview} className="size-15 rounded-full" />
               ) : (
                 <div className="size-15 flex justify-center items-center rounded-full bg-gray-700 text-white">
                   <User />
