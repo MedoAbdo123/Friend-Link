@@ -16,29 +16,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Friend Link",
-  description: "Friend Link Social Networking Site",
-  openGraph: {
-    title: "Friend Link",
-    description: "Connect with your friends on Friend Link",
-    images: [
-      {
-        url: "public/favicon.ico",
-        width: 1200,
-        height: 630,
-        alt: "Friend Link Logo",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Friend Link",
-    description: "Connect with your friends on Friend Link",
-    images: ["/public/favicon.ico"],
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{

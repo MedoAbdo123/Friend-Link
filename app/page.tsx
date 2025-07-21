@@ -3,7 +3,7 @@ import DarkMode from "./components/theme/DarkMode";
 import PostsWrapper from "./components/posts/PostsWrapper";
 import Header from "./layout/Layout";
 export const metadata = {
-  title: "Friend Link ",
+  title: "Friend Link",
   description:
     "Friend Link is a social network that helps you connect and share with your friends.",
   keywords: ["Friend Link", "موقع اجتماعي", "تواصل", "مشاركة", "شبكة اجتماعية", "friend link", "friendlink", "friend-link"],
