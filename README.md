@@ -14,7 +14,7 @@ pnpm dev
 bun dev
 ```
 
-Open [https://friendlink-api.onrender.com/](https://friendlink-api.onrender.com/) with your browser to see the result.
+Open [http://localhost:3000/](http://localhost:3000/) with your browser to see the result.
 
 You can start editing the Page by modifying `app/Page.tsx`. The Page auto-updates as you edit the file.
 
@@ -38,6 +38,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # friend-link
 
 # friend-link
+
 # friend-link
+
 # Friend-Link
+
 # Friend-Link

@@ -33,7 +33,7 @@ function Register() {
     e.preventDefault();
     setLoading(true);
 
-    fetch("https://friendlink-api.onrender.com/user/register", {
+    fetch("http://localhost:3000/user/register", {
       method: "POST",
       body: formData,
     })
@@ -99,7 +99,13 @@ function Register() {
             </header>
             <section className="p-6 flex items-center gap-4">
               {avatarPreview ? (
-                <NextImage alt="Avatar Preview" width={120} height={120} src={avatarPreview} className="size-15 rounded-full" />
+                <NextImage
+                  alt="Avatar Preview"
+                  width={120}
+                  height={120}
+                  src={avatarPreview}
+                  className="size-15 rounded-full"
+                />
               ) : (
                 <div className="size-15 flex justify-center items-center rounded-full bg-gray-700 text-white">
                   <User />

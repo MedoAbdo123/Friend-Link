@@ -3,7 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { SendHorizontal } from "lucide-react";
 import { useCommentsCache } from "@/app/contexts/CommentsContext";
 import { jwtDecode } from "jwt-decode";
-import { CommentType, MyPayload, Props, PropsComment } from "@/app/exports/exports";
+import {
+  CommentType,
+  MyPayload,
+  Props,
+  PropsComment,
+} from "@/app/exports/exports";
 import AlertMessage from "../aletMessage/AlertMessage";
 import NextImage from "next/image";
 export default function Comments({ onClose, postId, onCommentChange }: Props) {
@@ -47,7 +52,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
       return;
     }
 
-    fetch(`https://friendlink-api.onrender.com/comment/${postId}`, {
+    fetch(`http://localhost:3000/comment/${postId}`, {
       method: "GET",
       cache: "no-store",
     })
@@ -69,7 +74,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://friendlink-api.onrender.com/comment", {
+      const res = await fetch("http://localhost:3000/comment", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -104,21 +109,18 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch(
-        `https://friendlink-api.onrender.com/comment/${commentId}`,
-        {
-          method: "PATCH",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify({
-            content: newContent,
-            commentId,
-          }),
-        }
-      );
+      const res = await fetch(`http://localhost:3000/comment/${commentId}`, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          content: newContent,
+          commentId,
+        }),
+      });
 
       if (!res.ok) {
         throw new Error("فشل تعديل التعليق");
@@ -177,7 +179,7 @@ export default function Comments({ onClose, postId, onCommentChange }: Props) {
 
   async function deleteComment(commentId: string) {
     const token = localStorage.getItem("token");
-    await fetch(`https://friendlink-api.onrender.com/comment/${commentId}`, {
+    await fetch(`http://localhost:3000/comment/${commentId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

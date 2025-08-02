@@ -11,12 +11,9 @@ function Page({ params }: PropsParams) {
 
   useEffect(() => {
     async function getTitleAndContent() {
-      const res = await fetch(
-        `https://friendlink-api.onrender.com/post/update/${postId}`,
-        {
-          method: "PATCH",
-        }
-      );
+      const res = await fetch(`http://localhost:3000/post/update/${postId}`, {
+        method: "PATCH",
+      });
       const data = await res.json();
       setTitle(data.data.post.title);
       setContent(data.data.post.content);
@@ -31,7 +28,7 @@ function Page({ params }: PropsParams) {
 
     const token = localStorage.getItem("token");
     try {
-      await fetch(`https://friendlink-api.onrender.com/post/update/${postId}`, {
+      await fetch(`http://localhost:3000/post/update/${postId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -2,7 +2,12 @@
 import { UserMinus, UserPlus, Users } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { RequestsClientProps, RequestsProps, StatusPending, User } from "../exports/exports";
+import {
+  RequestsClientProps,
+  RequestsProps,
+  StatusPending,
+  User,
+} from "../exports/exports";
 import NextImage from "next/image";
 function RequestsClient({ data, users, pending }: RequestsClientProps) {
   const [active, setActive] = useState<"requests" | "users" | "pending">(
@@ -30,7 +35,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
   }, []);
 
   async function AcceptRequest(requestId: string) {
-    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
+    await fetch(`http://localhost:3000/friend/${requestId}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -40,7 +45,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
     setRequsests((prev) => prev.filter((user) => user._id !== requestId));
   }
   async function SendRequest(receiverId: string) {
-    const res = await fetch("https://friendlink-api.onrender.com/friend", {
+    const res = await fetch("http://localhost:3000/friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -70,7 +75,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
   }
 
   async function DeclineRequest(requestId: string) {
-    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
+    await fetch(`http://localhost:3000/friend/${requestId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -90,15 +95,12 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
     }
 
     try {
-      await fetch(
-        `https://friendlink-api.onrender.com/friend/${targetRequestId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await fetch(`http://localhost:3000/friend/${targetRequestId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setaddedFriend((prev) => prev.filter((item) => item.userId !== userId));
       setStatusPending((prev) =>
@@ -126,7 +128,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
   }
 
   return (
-    <article className="flex items-center mt-5 flex-col w-full h-screen">
+    <article className="flex items-center mt-5 flex-col w-full min-h-screen">
       <section className="w-[95%] sm:w-145 bg-gray-300 p-2 rounded grid grid-cols-3 gap-2 mt-5">
         <button
           onClick={() => setActive("requests")}

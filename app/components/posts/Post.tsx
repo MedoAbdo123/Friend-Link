@@ -78,7 +78,7 @@ function Post({
       router.push("/login");
       setIsLiked(isLiked);
     }
-    await fetch(`https://friendlink-api.onrender.com/post/like/${postId}`, {
+    await fetch(`http://localhost:3000/post/like/${postId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -104,7 +104,7 @@ function Post({
 
   async function handleDeletePost(postId: string) {
     const token = localStorage.getItem("token");
-    await fetch(`https://friendlink-api.onrender.com/post/delete/${postId}`, {
+    await fetch(`http://localhost:3000/post/delete/${postId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -211,6 +211,7 @@ function Post({
           <NextImage
             src={userPhoto}
             alt="user profile"
+            unoptimized
             width={40}
             height={40}
             className="size-10 rounded-full object-cover"
@@ -274,6 +275,7 @@ function Post({
             height={400}
             alt="post image"
             src={image}
+            unoptimized
             className="w-full h-auto object-cover rounded-2xl"
           />
         )}

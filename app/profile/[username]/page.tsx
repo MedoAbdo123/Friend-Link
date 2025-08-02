@@ -39,12 +39,9 @@ export default function Page({ params }: PropsParams) {
   useEffect(() => {
     async function getPosts() {
       try {
-        const res = await fetch(
-          `https://friendlink-api.onrender.com/post/${username}`,
-          {
-            method: "GET",
-          }
-        );
+        const res = await fetch(`http://localhost:3000/post/${username}`, {
+          method: "GET",
+        });
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setPosts(data);
@@ -73,7 +70,7 @@ export default function Page({ params }: PropsParams) {
     async function loadStatus() {
       try {
         const res = await fetch(
-          `https://friendlink-api.onrender.com/friend/getStatus/${userData._id}`,
+          `http://localhost:3000/friend/getStatus/${userData._id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -104,7 +101,7 @@ export default function Page({ params }: PropsParams) {
       return;
     }
 
-    const res = await fetch("https://friendlink-api.onrender.com/friend", {
+    const res = await fetch("http://localhost:3000/friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -123,7 +120,7 @@ export default function Page({ params }: PropsParams) {
   async function DeclineRequest() {
     const found = addedFriend.find((item) => item.requestId);
     const requestId = found?.requestId;
-    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
+    await fetch(`http://localhost:3000/friend/${requestId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -162,8 +159,8 @@ export default function Page({ params }: PropsParams) {
     <article className="w-full min-h-screen">
       <section className="flex flex-col items-center mt-4">
         <NextImage
-        width={120}
-        height={120}
+          width={120}
+          height={120}
           src={userData.avatar || data.avatar || "/default-avatar.png"}
           alt={userData.name || data.name || "User Avatar"}
           className="size-30 rounded-full"

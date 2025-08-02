@@ -43,13 +43,10 @@ export default function EditProfile({ onClose }: Props) {
     }
 
     try {
-      const res = await fetch(
-        `https://friendlink-api.onrender.com/user/update/${userId}`,
-        {
-          method: "PATCH",
-          body: formData,
-        }
-      );
+      const res = await fetch(`http://localhost:3000/user/update/${userId}`, {
+        method: "PATCH",
+        body: formData,
+      });
       const data = await res.json();
 
       document.cookie = `token=${data.data.token}; path=/; max-age=${

@@ -14,13 +14,10 @@ async function Page() {
     return <div>Error: Invalid token or username not found.</div>;
   }
 
-  const res = await fetch(
-    `https://friendlink-api.onrender.com/post/${decode?.username}`,
-    {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    }
-  );
+  const res = await fetch(`http://localhost:3000/post/${decode?.username}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
   let data = null;
   const text = await res.text();

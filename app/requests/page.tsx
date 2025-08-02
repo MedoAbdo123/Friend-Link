@@ -10,7 +10,7 @@ async function requestPage() {
       throw new Error("No token found");
     }
 
-    const res = await fetch("https://friendlink-api.onrender.com/friend", {
+    const res = await fetch("http://localhost:3000/friend", {
       method: "GET",
       cache: "no-store",
       headers: {
@@ -20,7 +20,7 @@ async function requestPage() {
       },
     });
 
-    const resUsers = await fetch("https://friendlink-api.onrender.com/user", {
+    const resUsers = await fetch("http://localhost:3000/user", {
       method: "GET",
       cache: "no-store",
       headers: {
@@ -31,7 +31,7 @@ async function requestPage() {
     });
 
     const RequestsPending = await fetch(
-      "https://friendlink-api.onrender.com/friend/pending",
+      "http://localhost:3000/friend/pending",
       {
         method: "GET",
         cache: "no-store",
