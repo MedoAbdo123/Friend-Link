@@ -127,12 +127,15 @@ function Chat({ firendsData }: ChatProps) {
   async function getMessages(roomId: string, friend: Friend) {
     handleShowMessages();
     setSelectedFriend(friend);
-    const res = await fetch(`http://localhost:3000/messages/${roomId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `https://friendlink-api.onrender.com/messages/${roomId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await res.json();
     setMessages(data);
   }
@@ -145,7 +148,7 @@ function Chat({ firendsData }: ChatProps) {
     if (isEditing && editingMessageId) {
       try {
         const res = await fetch(
-          `http://localhost:3000/messages/${editingMessageId}`,
+          `https://friendlink-api.onrender.com/messages/${editingMessageId}`,
           {
             method: "PATCH",
             headers: {
@@ -182,13 +185,16 @@ function Chat({ firendsData }: ChatProps) {
         formData.append("message", typeMessage);
         if (photo) formData.append("photo", photo);
         formData.append("roomId", roomId);
-        const res = await fetch(`http://localhost:3000/messages`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
+        const res = await fetch(
+          `https://friendlink-api.onrender.com/messages`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
 
         if (res.ok) {
           setTypeMessage("");
@@ -248,12 +254,15 @@ function Chat({ firendsData }: ChatProps) {
   }, [socket, roomId]);
 
   async function deleteMessage(messageId: string) {
-    const res = await fetch(`http://localhost:3000/messages/${messageId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `https://friendlink-api.onrender.com/messages/${messageId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (res.ok) {
       setMessages((prev) => prev.filter((msg) => msg._id !== messageId));

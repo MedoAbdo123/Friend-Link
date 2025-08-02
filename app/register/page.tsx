@@ -33,7 +33,7 @@ function Register() {
     e.preventDefault();
     setLoading(true);
 
-    fetch("http://localhost:3000/user/register", {
+    fetch("https://friendlink-api.onrender.com/user/register", {
       method: "POST",
       body: formData,
     })

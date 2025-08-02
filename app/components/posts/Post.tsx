@@ -78,7 +78,7 @@ function Post({
       router.push("/login");
       setIsLiked(isLiked);
     }
-    await fetch(`http://localhost:3000/post/like/${postId}`, {
+    await fetch(`https://friendlink-api.onrender.com/post/like/${postId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -104,7 +104,7 @@ function Post({
 
   async function handleDeletePost(postId: string) {
     const token = localStorage.getItem("token");
-    await fetch(`http://localhost:3000/post/delete/${postId}`, {
+    await fetch(`https://friendlink-api.onrender.com/post/delete/${postId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

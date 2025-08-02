@@ -39,9 +39,12 @@ export default function Page({ params }: PropsParams) {
   useEffect(() => {
     async function getPosts() {
       try {
-        const res = await fetch(`http://localhost:3000/post/${username}`, {
-          method: "GET",
-        });
+        const res = await fetch(
+          `https://friendlink-api.onrender.com/post/${username}`,
+          {
+            method: "GET",
+          }
+        );
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setPosts(data);
@@ -70,7 +73,7 @@ export default function Page({ params }: PropsParams) {
     async function loadStatus() {
       try {
         const res = await fetch(
-          `http://localhost:3000/friend/getStatus/${userData._id}`,
+          `https://friendlink-api.onrender.com/friend/getStatus/${userData._id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -101,7 +104,7 @@ export default function Page({ params }: PropsParams) {
       return;
     }
 
-    const res = await fetch("http://localhost:3000/friend", {
+    const res = await fetch("https://friendlink-api.onrender.com/friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -120,7 +123,7 @@ export default function Page({ params }: PropsParams) {
   async function DeclineRequest() {
     const found = addedFriend.find((item) => item.requestId);
     const requestId = found?.requestId;
-    await fetch(`http://localhost:3000/friend/${requestId}`, {
+    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

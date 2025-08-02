@@ -36,7 +36,7 @@ export const metadata = {
 
 export default async function Home() {
   const res = await fetch(
-    "http://localhost:3000/post/allPosts?skip=0&limit=10",
+    "https://friendlink-api.onrender.com/post/allPosts?skip=0&limit=10",
     {
       next: { revalidate: 60 },
     }
@@ -44,7 +44,7 @@ export default async function Home() {
   const data = await res.json();
   return (
     <React.Fragment>
-        <div className="fixed top-0 left-0 right-0 z-50">
+      <div className="fixed top-0 left-0 right-0 z-50">
         <Header />
       </div>
       <div className="flex items-center flex-col overflow-hidden space-y-25 justify-center mt-20 p-3 sm:p-0 sm:py-5">

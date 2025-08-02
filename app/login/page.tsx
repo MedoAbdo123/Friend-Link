@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
 
-    fetch("http://localhost:3000/user/login", {
+    fetch("https://friendlink-api.onrender.com/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

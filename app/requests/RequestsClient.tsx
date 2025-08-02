@@ -35,7 +35,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
   }, []);
 
   async function AcceptRequest(requestId: string) {
-    await fetch(`http://localhost:3000/friend/${requestId}`, {
+    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
     setRequsests((prev) => prev.filter((user) => user._id !== requestId));
   }
   async function SendRequest(receiverId: string) {
-    const res = await fetch("http://localhost:3000/friend", {
+    const res = await fetch("https://friendlink-api.onrender.com/friend", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
   }
 
   async function DeclineRequest(requestId: string) {
-    await fetch(`http://localhost:3000/friend/${requestId}`, {
+    await fetch(`https://friendlink-api.onrender.com/friend/${requestId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -95,12 +95,15 @@ function RequestsClient({ data, users, pending }: RequestsClientProps) {
     }
 
     try {
-      await fetch(`http://localhost:3000/friend/${targetRequestId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await fetch(
+        `https://friendlink-api.onrender.com/friend/${targetRequestId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setaddedFriend((prev) => prev.filter((item) => item.userId !== userId));
       setStatusPending((prev) =>

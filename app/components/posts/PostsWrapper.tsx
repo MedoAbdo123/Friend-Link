@@ -45,7 +45,7 @@ export default function PostsWrapper({ initialPosts }: PostsWrapperProps) {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/post/allPosts?skip=${skip}&limit=${limit}`,
+        `https://friendlink-api.onrender.com/post/allPosts?skip=${skip}&limit=${limit}`,
         { cache: "no-store" }
       );
       const data = await res.json();
