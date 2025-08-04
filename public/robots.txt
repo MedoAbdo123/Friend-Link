@@ -2,8 +2,5 @@
 User-agent: *
 Allow: /
 
-# Host
-Host: https://friend-link.netlify.app
-
 # Sitemaps
 Sitemap: https://friend-link.netlify.app/sitemap.xml
